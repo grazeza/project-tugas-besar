@@ -114,11 +114,18 @@ int main()
     LinkedList *bukuFiksi = (rwbookstore.buatLinkedList());
     LinkedList *bukuIlmiah = (rwbookstore.buatLinkedList());
     LinkedList *bukuSastra = (rwbookstore.buatLinkedList());
+    LinkedList *bukuKesehatan = (rwbookstore.buatLinkedList());
     LinkedList *bukuAgamaIslam = (rwbookstore.buatLinkedList());
     LinkedList *bukuBahasa = (rwbookstore.buatLinkedList());
     LinkedList *bukuSeniDanOlahraga = (rwbookstore.buatLinkedList());
     LinkedList *bukuMajalah = (rwbookstore.buatLinkedList());
     LinkedList *bukuAkademik = (rwbookstore.buatLinkedList());
+
+    LinkedList *bukuPahlawan = (rwbookstore.buatLinkedList());
+    LinkedList *bukuFiksi = (rwbookstore.buatLinkedList());
+    LinkedList *bukuIlmiah = (rwbookstore.buatLinkedList());
+    LinkedList *bukuSastra = (rwbookstore.buatLinkedList());
+    LinkedList *bukuKesehatan = (rwbookstore.buatLinkedList());
 
     rwbookstore.insertBelakang(bukuPahlawan, "Soekarno", 75, 180, "Buku Pahlawan");
     rwbookstore.insertBelakang(bukuPahlawan, "Moh Hatta", 65, 200, "Buku Pahlawan");
@@ -126,9 +133,37 @@ int main()
     rwbookstore.insertBelakang(bukuPahlawan, "Kartini", 75, 180, "Buku Pahlawan");
     rwbookstore.tampilanDaftarBuku(bukuPahlawan);
 
+    rwbookstore.insertBelakang(bukuFiksi, "Boneka", 65, 200, "Buku Fiksi");
+    rwbookstore.insertBelakang(bukuFiksi, "Yaya", 75, 180, "Buku Fiksi");
+    rwbookstore.insertBelakang(bukuFiksi, "Kurdanil", 100, 400, "Buku Fiksi");
     rwbookstore.insertBelakang(bukuFiksi, "Katarsis", 75, 180, "Buku Fiksi");
-    rwbookstore.insertBelakang(bukuFiksi, "Yang Terlupakan", 200, 80, "Buku Fiksi");
+    rwbookstore.insertBelakang(bukuFiksi, "Orang Biasa", 65, 280, "Buku Fiksi");
+    rwbookstore.insertBelakang(bukuFiksi, "Man Boy", 100, 400, "Buku Fiksi");
     rwbookstore.tampilanDaftarBuku(bukuFiksi);
+
+    rwbookstore.insertBelakang(bukuIlmiah, "Fisika", 65, 200, "Buku Ilmiah");
+    rwbookstore.insertBelakang(bukuIlmiah, "Ilmiah", 75, 180, "Buku Ilmiah");
+    rwbookstore.insertBelakang(bukuIlmiah, "Kalkulus", 100, 400, "Buku Ilmiah");
+    rwbookstore.insertBelakang(bukuIlmiah, "Geografi", 75, 180, "Buku Ilmiah");
+    rwbookstore.insertBelakang(bukuIlmiah, "Biologi", 65, 280, "Buku Ilmiah");
+    rwbookstore.insertBelakang(bukuIlmiah, "Astronomi", 100, 400, "Buku Ilmiah");
+    rwbookstore.tampilanDaftarBuku(bukuIlmiah);
+
+    rwbookstore.insertBelakang(bukuSastra, "Pantun", 65, 200, "Buku Sastra");
+    rwbookstore.insertBelakang(bukuSastra, "Puisi", 75, 180, "Buku Sastra");
+    rwbookstore.insertBelakang(bukuSastra, "Hikkayat", 100, 400, "Buku Sastra");
+    rwbookstore.insertBelakang(bukuSastra, "Buumi manusia", 75, 180, "Buku Sastra");
+    rwbookstore.insertBelakang(bukuSastra, "Orang Blomington", 65, 280, "Buku Sastra");
+    rwbookstore.insertBelakang(bukuSastra, "Ronggeh Dukuh", 100, 400, "Buku Sastra");
+    rwbookstore.tampilanDaftarBuku(bukuSastra);
+
+    rwbookstore.insertBelakang(bukuKesehatan, "Jantung Sehat", 65, 200, "Buku Kesehatan");
+    rwbookstore.insertBelakang(bukuKesehatan, "Cara bernapas", 75, 180, "Buku Kesehatan");
+    rwbookstore.insertBelakang(bukuKesehatan, "Breath", 100, 400, "Buku Kesehatan");
+    rwbookstore.insertBelakang(bukuKesehatan, "Sel Yang Berbicara", 75, 180, "Buku Kesehatan");
+    rwbookstore.insertBelakang(bukuKesehatan, "Mengelola Sayur", 65, 280, "Buku Kesehatan");
+    rwbookstore.insertBelakang(bukuKesehatan, "Pentingnya Buah", 100, 400, "Buku Kesehatan");
+    rwbookstore.tampilanDaftarBuku(bukuKesehatan);
 
     rwbookstore.insertBelakang(bukuAgamaIslam, "Hadist", 75, 180, "Buku Agama Islam");
     rwbookstore.insertBelakang(bukuAgamaIslam, "Fikih", 65, 200, "Buku Agama Islam");
