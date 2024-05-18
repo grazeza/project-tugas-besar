@@ -205,4 +205,122 @@ int main()
     rwbookstore.insertBelakang(bukuAkademik, "SKD", 100, 400, "Buku Akademik");
     rwbookstore.tampilanDaftarBuku(bukuAkademik);
 
+    int pilih;
+    string judul;
+
+    while (true) {
+        cout << "-----==MENU UTAMA==----" << endl;
+        cout << "-----------------------" << endl;
+        cout << "|1.| DAFTAR BUKU       |" << endl;
+        cout << "-----------------------" << endl;
+        cout << "|2.| SEARCH BUKU       |" << endl;
+        cout << "-----------------------" << endl;
+        cout << "|3.| LOGOUT            |" << endl;
+        cout << "-----------------------" << endl;
+        cout << "|4.| EXIT              |" << endl;
+        cout << "-----------------------" << endl;
+
+        cout << "\n\nPilihan Anda [1-4]: ";
+        cin >> pilih;
+
+        switch (pilih) {
+            case 1: {
+                cout << "-----==DAFTAR BUKU==----" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|1.| BUKU PAHLAWAN    |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|2.| BUKU FIKSI       |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|3.| BUKU ILMIAH      |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|4.| BUKU SASTRA      |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|5.| BUKU KESEHATAN   |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|6.| BUKU AGAMA ISLAM |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|7.| BUKU BAHASA      |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|8.| BUKU SENI DAN OLAHRAGA |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|9.| MAJALAH          |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|10.| BUKU AKADEMIK   |" << endl;
+                cout << "-----------------------" << endl;
+                cout << "|11.| KEMBALI         |" << endl;
+                cout << "-----------------------" << endl;
+
+                int kategoriPilihan;
+                cout << "Pilih kategori [1-11]: ";
+                cin >> kategoriPilihan;
+
+                switch (kategoriPilihan) {
+                    case 1:
+                        rwbookstore.tampilanDaftarBuku(bukuPahlawan);
+                        break;
+                    case 2:
+                        rwbookstore.tampilanDaftarBuku(bukuFiksi);
+                        break;
+                    case 3:
+                        rwbookstore.tampilanDaftarBuku(bukuIlmiah);
+                        break;
+                    case 4:
+                        rwbookstore.tampilanDaftarBuku(bukuSastra);
+                        break;
+                    case 5:
+                        rwbookstore.tampilanDaftarBuku(bukuKesehatan);
+                        break;
+                    case 6:
+                        rwbookstore.tampilanDaftarBuku(bukuAgamaIslam);
+                        break;
+                    case 7:
+                        rwbookstore.tampilanDaftarBuku(bukuBahasa);
+                        break;
+                    case 8:
+                        rwbookstore.tampilanDaftarBuku(bukuSeniDanOlahraga);
+                        break;
+                    case 9:
+                        rwbookstore.tampilanDaftarBuku(bukuMajalah);
+                        break;
+                    case 10:
+                        rwbookstore.tampilanDaftarBuku(bukuAkademik);
+                        break;
+                    case 11:
+                        break;
+                    default:
+                        cout << "Pilihan tidak valid!" << endl;
+                        break;
+                }
+                break;
+            }
+            case 2: {
+                cout << "Masukkan judul buku yang ingin dicari: ";
+                cin.ignore();
+                getline(cin, judul);
+
+                rwbookstore.searchBuku(bukuPahlawan, judul);
+                rwbookstore.searchBuku(bukuFiksi, judul);
+                rwbookstore.searchBuku(bukuIlmiah, judul);
+                rwbookstore.searchBuku(bukuSastra, judul);
+                rwbookstore.searchBuku(bukuKesehatan, judul);
+                rwbookstore.searchBuku(bukuAgamaIslam, judul);
+                rwbookstore.searchBuku(bukuBahasa, judul);
+                rwbookstore.searchBuku(bukuSeniDanOlahraga, judul);
+                rwbookstore.searchBuku(bukuMajalah, judul);
+                rwbookstore.searchBuku(bukuAkademik, judul);
+                break;
+            }
+            case 3:
+                logout();
+                break;
+            case 4:
+                cout << "Terima kasih! Program selesai." << endl;
+                return 0;
+            default:
+                cout << "Pilihan tidak valid!" << endl;
+                break;
+        }
+    }
+
+
 }
