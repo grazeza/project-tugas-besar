@@ -128,6 +128,7 @@ int main()
     string orang;
     string nim;
 
+    // Tampilan menu Login
     cout << "-------------------------------------------- SELAMAT DATANG DI R&W Book Emporium ---------------------------------------" << endl;
     cout << "ISI BIODATA BERIKUT : " << endl
          << endl;
@@ -236,7 +237,7 @@ int main()
         double total = 0.0; // nilai awal belanja
         double diskon;
         string namabarang;
-        
+
         while (true)
         { // loop nama buku dan jumlah buku
             int banyak;
