@@ -105,6 +105,28 @@ public:
     }
 
 };
+ void searchBuku(LinkedList *list, const string &judul) {
+        current = list->head;
+        bool found = false;
+
+        while (current != nullptr) {
+            if (current->nama.find(judul) != string::npos) {
+                cout << "Buku ditemukan: " << current->nama << " | Harga: Rp." << current->harga << " | Stok: " << current->banyak << " | Kategori: " << current->kategori << endl;
+                found = true;
+            }
+            current = current->next;
+        }
+
+        if (!found) {
+            cout << "Buku dengan judul \"" << judul << "\" tidak ditemukan dalam kategori " << list->head->kategori << "." << endl;
+        }
+    }
+};
+
+void logout() {
+    cout << "Logout berhasil.\n";
+    // Tambahkan logika logout yang sesuai jika diperlukan
+}
 
 int main()
 {
