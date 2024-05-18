@@ -21,6 +21,10 @@ typedef struct LinkedList
 class RWBookStore
 {
 public:
+    double totalHarga;
+    double diskon;
+    string namaBuku;
+
     Node *head, *tail, *newNode, *current;
 
     LinkedList *buatLinkedList()
@@ -84,6 +88,22 @@ public:
 
             current = current->next;
         }
+
+        prosesTransaksi(list);
+    }
+
+    void prosesTransaksi(LinkedList *list) {
+        current = list->head;
+
+        while (current != nullptr) {
+            if (current->nama == namaBuku) {
+                break;
+            }
+
+            current = current->next;
+        }
+
+        current->banyak;
     }
 
     void kurangiStokBuku(LinkedList *list, const string &namaBuku, int jumlah)
