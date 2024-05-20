@@ -143,9 +143,10 @@ typedef struct LinkedList
 
 class RWBookStore
 {
-public:
+private:
     Node *head, *tail, *newNode, *current;
 
+public:
     LinkedList *buatLinkedList()
     {
         LinkedList *list = (LinkedList *)malloc(sizeof(LinkedList));
@@ -230,102 +231,4 @@ public:
 
 int main()
 {
-    HashMap tabelUsers;
-    RWBookStore rwbookstore;
-
-    int choiceLoginMenu;
-    int masuk;
-    int pilih;
-    int masuk2;
-    string username, password, code;
-
-    LinkedList *bukuPahlawan = (rwbookstore.buatLinkedList());
-    LinkedList *bukuFiksi = (rwbookstore.buatLinkedList());
-    LinkedList *bukuIlmiah = (rwbookstore.buatLinkedList());
-    LinkedList *bukuSastra = (rwbookstore.buatLinkedList());
-
-    rwbookstore.insertBelakang(bukuPahlawan, "Soekarno", 75, 180, "Buku Pahlawan");
-    rwbookstore.insertBelakang(bukuPahlawan, "Moh Hatta", 65, 200, "Buku Pahlawan");
-    rwbookstore.insertBelakang(bukuPahlawan, "Buya Hamka", 100, 400, "Buku Pahlawan");
-
-    rwbookstore.insertBelakang(bukuPahlawan, "yaya", 75, 180, "Buku Fiksi");
-    rwbookstore.insertBelakang(bukuPahlawan, "boneka", 65, 200, "Buku Fiksi");
-    rwbookstore.insertBelakang(bukuFiksi, "Yang Terlupakan", 200, 80, "Buku Fiksi");
-
-    cout << "-------------------------------------------- SELAMAT DATANG DI RWF Book Emporium ---------------------------------------" << endl;
-    cout << "Silahkan Login Terlebih Dahulu" << endl
-         << endl;
-
-    while (true)
-    {
-        cout << "1. Login" << endl;
-        cout << "2. Register" << endl;
-        cout << "0. Exit" << endl;
-        cout << "Pilih? ";
-        cin >> choiceLoginMenu;
-
-        switch (choiceLoginMenu)
-        {
-        case 1:
-            cout << endl
-                 << "Masukkan username: ";
-            cin >> username;
-
-            cout << "Masukkan password: ";
-            cin >> password;
-
-            if (tabelUsers.Login(username, password))
-            {
-                cout << "Login Berhasil" << endl;
-                cout << endl
-                     << endl;
-
-                cout << "SELAMAT DATANG " << username << " DI RWF Book Emporium " << endl
-                     << endl;
-                cout << endl;
-
-                for (int i = 0; i < 20; ++i)
-                { // efek visual
-                    std::cout << "\rLoading " << std::string(i, '=') << ">" << std::flush;
-                    std::this_thread::sleep_for(std::chrono::milliseconds(300));
-                    // crono Menyediakan fasilitas untuk mengukur waktu dan mengelola waktu dalam program.
-                }
-
-                std::cout << "\rLoading =========" << std::endl
-                          << std::endl;
-                cout << endl;
-
-                rwbookstore.tampilanDaftarBuku(bukuPahlawan);
-                rwbookstore.tampilanDaftarBuku(bukuFiksi);
-            }
-            else
-            {
-                cout << "Login Gagal" << endl;
-            }
-
-            break;
-
-        case 2:
-            cout << endl
-                 << "Masukkan username: ";
-            cin >> username;
-
-            cout << "Masukkan password: ";
-            cin >> password;
-
-            cout << "Masukkan kode unik: ";
-            cin >> code;
-
-            tabelUsers.Register(username, password, code);
-            break;
-
-        case 0:
-            return 0;
-            break;
-
-        default:
-            cout << "Input yang anda masukkan tidak valid" << endl;
-            break;
-        }
-    }
 }
