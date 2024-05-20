@@ -36,7 +36,7 @@ private:
 public:
     double totalHarga, diskon, uang;
     string namaBuku;
-    int banyakBuku;
+    int banyakBuku, pilihanMenu;
 
     Node *head, *tail, *newNode, *current;
 
@@ -165,6 +165,10 @@ public:
     {
     }
 
+    void updateBuku()
+    {
+    }
+
     void tampilanDaftarBuku(LinkedList *list)
     {
         cout << "\n---------=== DAFTAR BUKU " << list->head->kategori << " ===---------:" << endl;
@@ -237,7 +241,8 @@ public:
             current->banyak -= banyakBuku;
             double subTotal = current->harga * banyakBuku;
             totalHarga += subTotal;
-            cout << "Harga Awal untuk Buku " << current->nama << "                                     : Rp." << setprecision(2) << subTotal << endl;
+            cout << endl;
+            cout << "Harga Awal untuk Buku " << current->nama << "                                     : Rp." << setprecision(3) << subTotal << endl;
 
             kurangiStokBuku(list, namaBuku, banyakBuku);
 
@@ -245,31 +250,41 @@ public:
             {
                 diskon = 0.24 * subTotal;
                 subTotal -= diskon;
-                cout << "Promo akhir bulan Mendapatkan diskon 24%                              : Rp." << setprecision(2) << diskon << endl;
-                cout << "Subtotal untuk Buku " << current->nama << "                                       : Rp." << setprecision(2) << subTotal << endl
+                cout << "Promo akhir bulan Mendapatkan diskon 24%                              : Rp." << setprecision(3) << diskon << endl;
+                cout << "Subtotal untuk Buku " << current->nama << "                                       : Rp." << setprecision(3) << subTotal << endl
                      << endl;
                 totalHarga -= diskon;
             }
             else
             {
-                cout << "Subtotal untuk Buku " << current->nama << "        Rp." << setprecision(2) << subTotal << endl
+                cout << "Subtotal untuk Buku " << current->nama << "        Rp." << setprecision(3) << subTotal << endl
                      << endl;
             }
 
             cout << endl;
-            cout << "Total Belanja : Rp." << setprecision(2) << totalHarga << endl; // untuk megatur jumlah desimal pada output
+            cout << "Total Belanja : Rp." << setprecision(3) << totalHarga << endl; // untuk megatur jumlah desimal pada output
             cout << "Jumlah Uang   : Rp.";
             cin >> uang;
             double pembayaran = uang - totalHarga;
-            cout << "Kembalian     : Rp." << setprecision(2) << pembayaran << endl
+            cout << "Kembalian     : Rp." << setprecision(3) << pembayaran << endl
                  << endl;
 
             cout << "TERIMA KASIH TELAH BERBELANJA DI R&W Book Emporium" << endl
                  << endl;
 
             cout << "Apakah Anda ingin melakukan transaksi lain? (1: Ya, 0: Tidak):";
-            // cin >> masuk2;
+            cin >> pilihanMenu;
             cout << endl;
+
+            if (pilihanMenu == 1)
+            {
+                return;
+                break;
+            }
+            else
+            {
+                displayMenu();
+            }
         }
     }
 
@@ -335,73 +350,79 @@ public:
             {
             case 1:
             {
-                cout << "-----==DAFTAR BUKU==----" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|1.| BUKU PAHLAWAN    |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|2.| BUKU FIKSI       |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|3.| BUKU ILMIAH      |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|4.| BUKU SASTRA      |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|5.| BUKU KESEHATAN   |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|6.| BUKU AGAMA ISLAM |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|7.| BUKU BAHASA      |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|8.| BUKU SENI DAN OLAHRAGA |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|9.| MAJALAH          |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|10.| BUKU AKADEMIK   |" << endl;
-                cout << "-----------------------" << endl;
-                cout << "|11.| KEMBALI         |" << endl;
-                cout << "-----------------------" << endl;
-
                 int kategoriPilihan;
-                cout << "Pilih kategori [1-11]: ";
-                cin >> kategoriPilihan;
 
-                switch (kategoriPilihan)
+                do
                 {
-                case 1:
-                    tampilanDaftarBuku(bukuPahlawan);
-                    break;
-                case 2:
-                    tampilanDaftarBuku(bukuFiksi);
-                    break;
-                case 3:
-                    tampilanDaftarBuku(bukuIlmiah);
-                    break;
-                case 4:
-                    tampilanDaftarBuku(bukuSastra);
-                    break;
-                case 5:
-                    tampilanDaftarBuku(bukuKesehatan);
-                    break;
-                case 6:
-                    tampilanDaftarBuku(bukuAgamaIslam);
-                    break;
-                case 7:
-                    tampilanDaftarBuku(bukuBahasa);
-                    break;
-                case 8:
-                    tampilanDaftarBuku(bukuSeniDanOlahraga);
-                    break;
-                case 9:
-                    tampilanDaftarBuku(bukuMajalah);
-                    break;
-                case 10:
-                    tampilanDaftarBuku(bukuAkademik);
-                    break;
-                case 11:
-                    break;
-                default:
-                    cout << "Pilihan tidak valid!" << endl;
-                    break;
-                }
+                    cout << "-----==DAFTAR BUKU==----" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|1.| BUKU PAHLAWAN    |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|2.| BUKU FIKSI       |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|3.| BUKU ILMIAH      |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|4.| BUKU SASTRA      |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|5.| BUKU KESEHATAN   |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|6.| BUKU AGAMA ISLAM |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|7.| BUKU BAHASA      |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|8.| BUKU SENI DAN OLAHRAGA |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|9.| MAJALAH          |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|10.| BUKU AKADEMIK   |" << endl;
+                    cout << "-----------------------" << endl;
+                    cout << "|11.| KEMBALI         |" << endl;
+                    cout << "-----------------------" << endl;
+
+                    cout << "Pilih kategori [1-11]: ";
+                    cin >> kategoriPilihan;
+
+                    switch (kategoriPilihan)
+                    {
+                    case 1:
+                        tampilanDaftarBuku(bukuPahlawan);
+                        break;
+                    case 2:
+                        tampilanDaftarBuku(bukuFiksi);
+                        break;
+                    case 3:
+                        tampilanDaftarBuku(bukuIlmiah);
+                        break;
+                    case 4:
+                        tampilanDaftarBuku(bukuSastra);
+                        break;
+                    case 5:
+                        tampilanDaftarBuku(bukuKesehatan);
+                        break;
+                    case 6:
+                        tampilanDaftarBuku(bukuAgamaIslam);
+                        break;
+                    case 7:
+                        tampilanDaftarBuku(bukuBahasa);
+                        break;
+                    case 8:
+                        tampilanDaftarBuku(bukuSeniDanOlahraga);
+                        break;
+                    case 9:
+                        tampilanDaftarBuku(bukuMajalah);
+                        break;
+                    case 10:
+                        tampilanDaftarBuku(bukuAkademik);
+                        break;
+                    case 11:
+                        return;
+                        break;
+                    default:
+                        cout << "Pilihan tidak valid!" << endl;
+                        break;
+                    }
+                } while (kategoriPilihan != 11);
+
                 break;
             }
             case 2:
@@ -439,7 +460,6 @@ public:
 void logout()
 {
     cout << "Logout berhasil.\n";
-    // Tambahkan logika logout yang sesuai jika diperlukan
 }
 
 int main()
