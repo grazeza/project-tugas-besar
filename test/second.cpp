@@ -161,8 +161,44 @@ public:
         }
     }
 
-    void deleteByNamaBuku()
+    void deleteByNamaBuku(LinkedList *list, string namaBuku)
     {
+        Node *temp = list->head, *prev = nullptr;
+
+        // Jika data yang dihapus di bagian head
+        if (temp != nullptr && temp->nama == namaBuku)
+        {
+            list->head = temp->next;
+            delete temp;
+            return;
+        }
+
+        // Mencari datanya sebelum data itu yang akan dihapus
+        while (temp != nullptr && temp->nama != namaBuku)
+        {
+            prev = temp;
+            temp = temp->next;
+        }
+
+        // Jika nama data tidak ditemukan
+        if (temp == nullptr)
+        {
+            cout << "Buku dengan nama '" << namaBuku << "' tidak ditemukan." << endl;
+            return;
+        }
+
+        // Menghapus data
+        if (prev == nullptr)
+        {
+            list->head = temp->next;
+        }
+        else
+        {
+            prev->next = temp->next;
+        }
+
+        delete temp;
+        cout << "Buku dengan nama '" << namaBuku << "' telah dihapus." << endl;
     }
 
     void updateBuku()
