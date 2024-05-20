@@ -375,7 +375,7 @@ public:
                     cout << "|7.| BUKU BAHASA            |" << endl;
                     cout << "----------------------------" << endl;
                     cout << "|8.| BUKU SENI DAN OLAHRAGA |" << endl;
-                    cout << "-----------------------" << endl;
+                    cout << "----------------------------" << endl;
                     cout << "|9.| MAJALAH                |" << endl;
                     cout << "----------------------------" << endl;
                     cout << "|10.| BUKU AKADEMIK         |" << endl;
