@@ -92,11 +92,14 @@ public:
         prosesTransaksi(list);
     }
 
-    void prosesTransaksi(LinkedList *list) {
+    void prosesTransaksi(LinkedList *list)
+    {
         current = list->head;
 
-        while (current != nullptr) {
-            if (current->nama == namaBuku) {
+        while (current != nullptr)
+        {
+            if (current->nama == namaBuku)
+            {
                 break;
             }
 
@@ -145,6 +148,11 @@ public:
         }
     }
 };
+
+void displaMenu()
+{
+    
+}
 
 void logout()
 {
