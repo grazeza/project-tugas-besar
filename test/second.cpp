@@ -199,6 +199,7 @@ public:
         {
             current = list->head;
             bool bookFound = false;
+            totalHarga = 0;
 
             cout << "Masukkan Nama Buku (ketik 'selesai' untuk menyelesaikan pembelian) : ";
             getline(cin, namaBuku);
@@ -250,7 +251,7 @@ public:
             {
                 diskon = 0.24 * subTotal;
                 subTotal -= diskon;
-                cout << "Promo akhir bulan Mendapatkan diskon 24%                              : Rp." << setprecision(3) << diskon << endl;
+                cout << "Promo akhir bulan Mendapatkan diskon 24%                         : Rp." << setprecision(3) << diskon << endl;
                 cout << "Subtotal untuk Buku " << current->nama << "                                       : Rp." << setprecision(3) << subTotal << endl
                      << endl;
                 totalHarga -= diskon;
@@ -266,6 +267,7 @@ public:
             cout << "Jumlah Uang   : Rp.";
             cin >> uang;
             double pembayaran = uang - totalHarga;
+
             cout << "Kembalian     : Rp." << setprecision(3) << pembayaran << endl
                  << endl;
 
