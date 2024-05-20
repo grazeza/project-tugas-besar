@@ -371,6 +371,7 @@ public:
                 {
                     return;
                 }
+
             }
             current = current->next;
         }
@@ -388,7 +389,7 @@ public:
 
     void searchBukuDiSemuaKategori(string judulBuku)
     {
-        cout << "\n-----------------=== PENCARIAN BUKU ===----------------" << endl
+        cout << "\n------------------=== PENCARIAN BUKU ===-----------------" << endl
              << endl;
 
         searchBuku(bukuPahlawan, judulBuku, true);
