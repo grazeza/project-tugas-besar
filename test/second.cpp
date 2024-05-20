@@ -334,6 +334,8 @@ public:
 
         while (true)
         {
+            system("cls");
+
             cout << "-----==MENU UTAMA==----" << endl;
             cout << "-----------------------" << endl;
             cout << "|1.| DAFTAR BUKU       |" << endl;
@@ -417,7 +419,6 @@ public:
                         tampilanDaftarBuku(bukuAkademik);
                         break;
                     case 11:
-                        return;
                         break;
                     default:
                         cout << "Pilihan tidak valid!" << endl;
