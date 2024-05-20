@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -23,7 +24,6 @@ class RWBookStore
 public:
     double totalHarga, diskon, uang;
     string namaBuku;
-    bool bookFound = false;
     int banyakBuku;
 
     Node *head, *tail, *newNode, *current;
@@ -82,7 +82,7 @@ public:
         {
             cout << setiosflags(ios::fixed);
             cout << "--------------------------------------------" << endl;
-            cout << "|" << current->nama << "| Harga: Rp." << setprecision(3) << current->harga << "| Stok: " << current->banyak << " |" << endl;
+            cout << "|" << current->nama << "| Harga: Rp." << setprecision(2) << current->harga << "| Stok: " << current->banyak << " |" << endl;
             cout << "--------------------------------------------";
             cout << endl
                  << endl;
@@ -95,80 +95,89 @@ public:
 
     void prosesTransaksi(LinkedList *list)
     {
-        current = list->head;
-
-        cout << "Masukkan Nama Buku (ketik 'selesai' untuk menyelesaikan pembelian) : ";
         cin.ignore();
-        getline(cin, namaBuku);
 
-        if (namaBuku == "selesai")
+        while (true)
         {
-            // break;
-        }
+            current = list->head;
+            bool bookFound = false;
 
-        while (current != nullptr)
-        {
-            if (current->nama == namaBuku)
+            cout << "Masukkan Nama Buku (ketik 'selesai' untuk menyelesaikan pembelian) : ";
+            getline(cin, namaBuku);
+            cout << namaBuku << endl;
+
+            if (namaBuku == "selesai")
             {
-                bookFound = true;
-
                 break;
             }
 
-            current = current->next;
-        }
+            while (current != nullptr)
+            {
+                if (current->nama == namaBuku)
+                {
+                    bookFound = true;
+                    break;
+                }
 
-        if (!bookFound)
-        {
-            cout << "Barang tiak ditemukan" << endl;
-            // continue;
-        }
+                current = current->next;
+            }
 
-        current->banyak;
-        cout << "Masukkan jumlah yang ingin dibeli";
-        cin >> banyakBuku;
-        if (banyakBuku > current->banyak)
-        {
-            cout << "Stok tidak mencukupi." << endl;
-            // continue;
-        }
+            if (!bookFound)
+            {
+                cout << endl
+                     << "Barang tiak ditemukan" << endl;
+                system("pause");
 
-        current->banyak -= banyakBuku;
-        double subtotal = current->harga * banyakBuku;
-        totalHarga += subtotal;
-        cout << "Harga Awal untuk Buku " << current->nama << "                                     : Rp." << setprecision(3) << subtotal << endl;
+                continue;
+            }
 
-        kurangiStokBuku(list, namaBuku, banyakBuku);
+            current->banyak;
+            cout << "Masukkan jumlah yang ingin dibeli: ";
+            cin >> banyakBuku;
 
-        if (totalHarga >= 50.000)
-        {
-            diskon = 0.24 * subtotal;
-            subtotal -= diskon;
-            cout << "Promo akhir bulan Mendapatkan diskon 24%                              : Rp." << setprecision(3) << diskon << endl;
-            cout << "Subtotal untuk Buku " << current->nama << "                                       : Rp." << setprecision(3) << subtotal << endl
+            if (banyakBuku > current->banyak)
+            {
+                cout << "Stok tidak mencukupi." << endl;
+                continue;
+            }
+
+            current->banyak -= banyakBuku;
+            double subTotal = current->harga * banyakBuku;
+            totalHarga += subTotal;
+            cout << "Harga Awal untuk Buku " << current->nama << "                                     : Rp." << setprecision(2) << subTotal << endl;
+
+            kurangiStokBuku(list, namaBuku, banyakBuku);
+
+            if (totalHarga >= 50.000)
+            {
+                diskon = 0.24 * subTotal;
+                subTotal -= diskon;
+                cout << "Promo akhir bulan Mendapatkan diskon 24%                              : Rp." << setprecision(2) << diskon << endl;
+                cout << "Subtotal untuk Buku " << current->nama << "                                       : Rp." << setprecision(2) << subTotal << endl
+                     << endl;
+                totalHarga -= diskon;
+            }
+            else
+            {
+                cout << "Subtotal untuk Buku " << current->nama << "        Rp." << setprecision(2) << subTotal << endl
+                     << endl;
+            }
+
+            cout << endl;
+            cout << "Total Belanja : Rp." << setprecision(2) << totalHarga << endl; // untuk megatur jumlah desimal pada output
+            cout << "Jumlah Uang   : Rp.";
+            cin >> uang;
+            double pembayaran = uang - totalHarga;
+            cout << "Kembalian     : Rp." << setprecision(2) << pembayaran << endl
                  << endl;
-            totalHarga -= diskon;
-        }
-        else
-        {
-            cout << "Subtotal untuk Buku " << current->nama << "        Rp." << setprecision(3) << subtotal << endl
+
+            cout << "TERIMA KASIH TELAH BERBELANJA DI R&W Book Emporium" << endl
                  << endl;
+
+            cout << "Apakah Anda ingin melakukan transaksi lain? (1: Ya, 0: Tidak):";
+            // cin >> masuk2;
+            cout << endl;
         }
- 
-        cout << endl;
-        cout << "Total Belanja : Rp." << setprecision(3) << totalHarga << endl; // untuk megatur jumlah desimal pada output
-        cout << "Jumlah Uang   : Rp.";
-        cin >> uang;
-        double pembayaran = uang - totalHarga;
-        cout << "Kembalian     : Rp." << setprecision(3) << pembayaran << endl
-             << endl;
-
-        cout << "TERIMA KASIH TELAH BERBELANJA DI R&W Book Emporium" << endl
-             << endl;
-
-        cout << "Apakah Anda ingin melakukan transaksi lain? (1: Ya, 0: Tidak):";
-        // cin >> masuk2;
-        cout << endl;
     }
 
     void kurangiStokBuku(LinkedList *list, const string &namaBuku, int jumlah)
@@ -182,10 +191,8 @@ public:
                 current->banyak -= jumlah;
                 break;
             }
-            else
-            {
-                current = current->next;
-            }
+
+            current = current->next;
         }
     }
 
