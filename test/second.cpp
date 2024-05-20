@@ -21,9 +21,10 @@ typedef struct LinkedList
 class RWBookStore
 {
 public:
-    double totalHarga;
-    double diskon;
+    double totalHarga, diskon, uang;
     string namaBuku;
+    bool bookFound = false;
+    int banyakBuku;
 
     Node *head, *tail, *newNode, *current;
 
@@ -96,17 +97,78 @@ public:
     {
         current = list->head;
 
+        cout << "Masukkan Nama Buku (ketik 'selesai' untuk menyelesaikan pembelian) : ";
+        cin.ignore();
+        getline(cin, namaBuku);
+
+        if (namaBuku == "selesai")
+        {
+            // break;
+        }
+
         while (current != nullptr)
         {
             if (current->nama == namaBuku)
             {
+                bookFound = true;
+
                 break;
             }
 
             current = current->next;
         }
 
+        if (!bookFound)
+        {
+            cout << "Barang tiak ditemukan" << endl;
+            // continue;
+        }
+
         current->banyak;
+        cout << "Masukkan jumlah yang ingin dibeli";
+        cin >> banyakBuku;
+        if (banyakBuku > current->banyak)
+        {
+            cout << "Stok tidak mencukupi." << endl;
+            // continue;
+        }
+
+        current->banyak -= banyakBuku;
+        double subtotal = current->harga * banyakBuku;
+        totalHarga += subtotal;
+        cout << "Harga Awal untuk Buku " << current->nama << "                                     : Rp." << setprecision(3) << subtotal << endl;
+
+        kurangiStokBuku(list, namaBuku, banyakBuku);
+
+        if (totalHarga >= 50.000)
+        {
+            diskon = 0.24 * subtotal;
+            subtotal -= diskon;
+            cout << "Promo akhir bulan Mendapatkan diskon 24%                              : Rp." << setprecision(3) << diskon << endl;
+            cout << "Subtotal untuk Buku " << current->nama << "                                       : Rp." << setprecision(3) << subtotal << endl
+                 << endl;
+            totalHarga -= diskon;
+        }
+        else
+        {
+            cout << "Subtotal untuk Buku " << current->nama << "        Rp." << setprecision(3) << subtotal << endl
+                 << endl;
+        }
+ 
+        cout << endl;
+        cout << "Total Belanja : Rp." << setprecision(3) << totalHarga << endl; // untuk megatur jumlah desimal pada output
+        cout << "Jumlah Uang   : Rp.";
+        cin >> uang;
+        double pembayaran = uang - totalHarga;
+        cout << "Kembalian     : Rp." << setprecision(3) << pembayaran << endl
+             << endl;
+
+        cout << "TERIMA KASIH TELAH BERBELANJA DI R&W Book Emporium" << endl
+             << endl;
+
+        cout << "Apakah Anda ingin melakukan transaksi lain? (1: Ya, 0: Tidak):";
+        // cin >> masuk2;
+        cout << endl;
     }
 
     void kurangiStokBuku(LinkedList *list, const string &namaBuku, int jumlah)
@@ -148,11 +210,6 @@ public:
         }
     }
 };
-
-void displaMenu()
-{
-    
-}
 
 void logout()
 {
