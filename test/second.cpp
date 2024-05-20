@@ -37,8 +37,9 @@ public:
     double totalHarga, diskon, uang;
     string namaBuku;
     int banyakBuku, pilihanMenu;
+    bool notfoundInAllCategories;
 
-    Node *head, *tail, *newNode, *current;
+    Node *head, *tail, *newNode, *current, *temp, *prev;
 
     RWBookStore()
     {
@@ -163,9 +164,9 @@ public:
 
     void deleteByNamaBuku(LinkedList *list, string namaBuku)
     {
-        Node *temp = list->head, *prev = nullptr;
+        temp = list->head;
+        prev = nullptr;
 
-        // Jika data yang dihapus di bagian head
         if (temp != nullptr && temp->nama == namaBuku)
         {
             list->head = temp->next;
@@ -173,21 +174,18 @@ public:
             return;
         }
 
-        // Mencari datanya sebelum data itu yang akan dihapus
         while (temp != nullptr && temp->nama != namaBuku)
         {
             prev = temp;
             temp = temp->next;
         }
 
-        // Jika nama data tidak ditemukan
         if (temp == nullptr)
         {
             cout << "Buku dengan nama '" << namaBuku << "' tidak ditemukan." << endl;
             return;
         }
 
-        // Menghapus data
         if (prev == nullptr)
         {
             list->head = temp->next;
@@ -207,7 +205,7 @@ public:
 
     void tampilanDaftarBuku(LinkedList *list)
     {
-        cout << "\n---------=== DAFTAR BUKU " << list->head->kategori << " ===---------:" << endl;
+        cout << "\n---------------=== DAFTAR BUKU " << list->head->kategori << " ===---------------:" << endl;
         cout << endl;
 
         current = list->head;
@@ -215,9 +213,11 @@ public:
         while (current != nullptr)
         {
             cout << setiosflags(ios::fixed);
-            cout << "--------------------------------------------" << endl;
-            cout << "|" << current->nama << "| Harga: Rp." << setprecision(2) << current->harga << "| Stok: " << current->banyak << " |" << endl;
-            cout << "--------------------------------------------";
+            cout << "-----------------------------------------------------------" << endl;
+            cout << "| " << setw(18) << left << current->nama
+                 << " | Harga: Rp." << setw(10) << right << fixed << setprecision(2) << current->harga
+                 << " | Stok: " << setw(5) << current->banyak << " |" << endl;
+            cout << "-----------------------------------------------------------";
             cout << endl
                  << endl;
 
@@ -342,46 +342,91 @@ public:
         }
     }
 
-    void searchBuku(LinkedList *list, const string &judul)
+    void searchBuku(LinkedList *list, string judulBuku, bool searchAllCategories = false)
     {
         current = list->head;
         bool found = false;
 
+        if (current == nullptr)
+        {
+            cout << "Data buku kosong." << endl;
+            return;
+        }
+
         while (current != nullptr)
         {
-            if (current->nama.find(judul) != string::npos)
+            if (current->nama == judulBuku)
             {
-                cout << "Buku ditemukan: " << current->nama << " | Harga: Rp." << current->harga << " | Stok: " << current->banyak << " | Kategori: " << current->kategori << endl;
-                found = true;
+                cout << setiosflags(ios::fixed);
+                cout << "\n----------------=== KATEGORI "<< current->kategori <<" ===----------------" << endl;
+                cout << "-----------------------------------------------------------" << endl;
+                cout << "| " << setw(18) << left << current->nama
+                     << " | Harga: Rp." << setw(10) << right << fixed << setprecision(2) << current->harga
+                     << " | Stok: " << setw(5) << current->banyak << " |" << endl;
+                cout << "-----------------------------------------------------------";
+                cout << endl
+                     << endl;
+
+                if (!searchAllCategories)
+                {
+                    return;
+                }
             }
             current = current->next;
         }
 
-        if (!found)
+        if (!found && !searchAllCategories)
         {
-            cout << "Buku dengan judul \"" << judul << "\" tidak ditemukan dalam kategori " << list->head->kategori << "." << endl;
+            cout << "Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam kategori " << list->head->kategori << "." << endl;
+        }
+
+        else if (!found && searchAllCategories)
+        {
+            notfoundInAllCategories = true;
+        }
+    }
+
+    void searchBukuDiSemuaKategori(string judulBuku)
+    {
+        cout << "\n-----------------=== PENCARIAN BUKU ===----------------" << endl
+             << endl;
+
+        searchBuku(bukuPahlawan, judulBuku, true);
+        searchBuku(bukuFiksi, judulBuku, true);
+        searchBuku(bukuIlmiah, judulBuku, true);
+        searchBuku(bukuSastra, judulBuku, true);
+        searchBuku(bukuKesehatan, judulBuku, true);
+        searchBuku(bukuAgamaIslam, judulBuku, true);
+        searchBuku(bukuBahasa, judulBuku, true);
+        searchBuku(bukuSeniDanOlahraga, judulBuku, true);
+        searchBuku(bukuMajalah, judulBuku, true);
+        searchBuku(bukuAkademik, judulBuku, true);
+
+        if (notfoundInAllCategories)
+        {
+            cout << "Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam semua kategori." << endl;
         }
     }
 
     void displayMenu()
     {
         int pilih;
-        string judul;
+        string judulBuku;
 
         while (true)
         {
-            system("cls");
+            // system("cls");
 
-            cout << "-----==MENU UTAMA==----" << endl;
-            cout << "-----------------------" << endl;
-            cout << "|1.| DAFTAR BUKU       |" << endl;
-            cout << "-----------------------" << endl;
-            cout << "|2.| SEARCH BUKU       |" << endl;
-            cout << "-----------------------" << endl;
-            cout << "|3.| LOGOUT            |" << endl;
-            cout << "-----------------------" << endl;
-            cout << "|4.| EXIT              |" << endl;
-            cout << "-----------------------" << endl;
+            cout << "-----== MENU UTAMA ==-----" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 1. | DAFTAR BUKU        |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 2. | SEARCH BUKU        |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 3. | LOGOUT             |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 4. | EXIT               |" << endl;
+            cout << "--------------------------" << endl;
 
             cout << "\n\nPilihan Anda [1-4]: ";
             cin >> pilih;
@@ -392,32 +437,34 @@ public:
             {
                 int kategoriPilihan;
 
+                cout << endl;
+
                 do
                 {
-                    cout << "-----==DAFTAR BUKU==----" << endl;
-                    cout << "-----------------------" << endl;
-                    cout << "|1.| BUKU PAHLAWAN          |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|2.| BUKU FIKSI             |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|3.| BUKU ILMIAH            |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|4.| BUKU SASTRA            |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|5.| BUKU KESEHATAN         |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|6.| BUKU AGAMA ISLAM       |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|7.| BUKU BAHASA            |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|8.| BUKU SENI DAN OLAHRAGA |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|9.| MAJALAH                |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|10.| BUKU AKADEMIK         |" << endl;
-                    cout << "----------------------------" << endl;
-                    cout << "|11.| KEMBALI               |" << endl;
-                    cout << "----------------------------" << endl;
+                    cout << "-------== DAFTAR BUKU ==------" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|1.| BUKU PAHLAWAN            |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|2.| BUKU FIKSI               |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|3.| BUKU ILMIAH              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|4.| BUKU SASTRA              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|5.| BUKU KESEHATAN           |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|6.| BUKU AGAMA ISLAM         |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|7.| BUKU BAHASA              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|8.| BUKU SENI DAN OLAHRAGA   |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|9.| MAJALAH                  |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|10.| BUKU AKADEMIK           |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|11.| KEMBALI                 |" << endl;
+                    cout << "------------------------------" << endl;
 
                     cout << "Pilih kategori [1-11]: ";
                     cin >> kategoriPilihan;
@@ -468,18 +515,9 @@ public:
             {
                 cout << "Masukkan judul buku yang ingin dicari: ";
                 cin.ignore();
-                getline(cin, judul);
+                getline(cin, judulBuku);
 
-                // searchBuku(bukuPahlawan, judul);
-                // searchBuku(bukuFiksi, judul);
-                // searchBuku(bukuIlmiah, judul);
-                // searchBuku(bukuSastra, judul);
-                // searchBuku(bukuKesehatan, judul);
-                // searchBuku(bukuAgamaIslam, judul);
-                // searchBuku(bukuBahasa, judul);
-                // searchBuku(bukuSeniDanOlahraga, judul);
-                // searchBuku(bukuMajalah, judul);
-                // searchBuku(bukuAkademik, judul);
+                searchBukuDiSemuaKategori(judulBuku);
                 break;
             }
             case 3:
