@@ -60,6 +60,10 @@
     "iostream": "cpp",
     "ostream": "cpp",
     "iomanip": "cpp",
-    "initializer_list": "cpp"
+    "initializer_list": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "vector": "cpp"
   }
 }

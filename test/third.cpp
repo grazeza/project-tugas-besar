@@ -27,6 +27,8 @@ private:
     vector<User *> table[tableIndex];
 
 public:
+    int pilih;
+
     ~HashMap()
     {
         for (int i = 0; i < tableIndex; i++)
@@ -82,28 +84,48 @@ public:
 
         table[hashValue].push_back(new User(username, password, role));
 
-        cout << "Berhasil Login" << endl;
+        cout << "Berhasil Register" << endl;
     }
 
-    void remove(string username)
+    void removeByUsername(string username)
     {
         int hashValue = simpleHash(username);
+        string usernameData;
 
         for (auto it = table[hashValue].begin(); it != table[hashValue].end(); it++)
         {
             if ((*it)->username == username)
             {
+                usernameData = (*it)->username;
                 table[hashValue].erase(it);
                 return;
             }
         }
+
+        cout << endl << "User " << usernameData << " berhasil di hapus." << endl;
     }
 
-    void searchByUsername(string NIM)
+    void searchByUsername(string username)
     {
+        int hashValue = simpleHash(username);
+
+        cout << "---------------------------------------------------------------" << endl;
+        cout << "|   No   |              Username         |        Role        |" << endl;
+        cout << "---------------------------------------------------------------" << endl;
+
+        for (auto it = table[hashValue].begin(); it != table[hashValue].end(); it++)
+        {
+            if ((*it)->username == username)
+            {
+                cout << "---------------------------------------------------------------" << endl;
+                cout << "| " << setw(6) << left << "1" << " | " << setw(28) << left << (*it)->username << " | " << setw(20) << left << (*it)->role << "|" << endl;
+                cout << "---------------------------------------------------------------" << endl
+                     << endl;
+            }
+        }
     }
 
-    void print()
+    void printUsers()
     {
         cout << "---------------------------------------------------------------" << endl;
         cout << "|   No   |              Username            |       Role      |" << endl;
@@ -121,6 +143,175 @@ public:
                 }
             }
         }
+
+        prosesOlahUser();
+    }
+
+    void prosesOlahUser()
+    {
+        int pilih, choice;
+        string username;
+
+        do
+        {
+            cout << endl
+                 << endl;
+            cout << "--------------------------------------" << endl;
+            cout << "| 1. | SELECT USERS                  |" << endl;
+            cout << "--------------------------------------" << endl;
+            cout << "| 2. | KEMBALI                       |" << endl;
+            cout << "--------------------------------------" << endl;
+
+            cout << "\n\nPilihan Anda [1-2]: ";
+            cin >> pilih;
+
+            switch (pilih)
+            {
+            case 1:
+                cout << "Masukkan Username                                      : " << setprecision(3);
+                cin >> username;
+
+                searchByUsername(username);
+
+                cout << "Apakah anda yakin ingin menghapus user ini? (1: Ya, 0: Tidak):";
+                cin >> choice;
+
+                if (choice == 1)
+                {
+                    removeByUsername(username);
+                    return;
+                }
+                else
+                {
+                    continue;
+                }
+
+                break;
+            case 2:
+                return;
+                break;
+
+            default:
+                cout << "Pilihan tidak valid!" << endl;
+                break;
+            }
+        } while (pilih != 2);
+    }
+
+    void displayMenu()
+    {
+        do
+        {
+            cout << "-----== MENU UTAMA ==-----" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 1. | DAFTAR BUKU        |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 2. | USERS              |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 3. | LOGOUT             |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 4. | EXIT               |" << endl;
+            cout << "--------------------------" << endl;
+
+            cout << "\n\nPilihan Anda [1-4]: ";
+            cin >> pilih;
+
+            switch (pilih)
+            {
+            case 1:
+                int kategoriPilihan;
+
+                cout << endl;
+
+                do
+                {
+                    cout << "-------== DAFTAR BUKU ==------" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|1.| BUKU PAHLAWAN            |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|2.| BUKU FIKSI               |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|3.| BUKU ILMIAH              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|4.| BUKU SASTRA              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|5.| BUKU KESEHATAN           |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|6.| BUKU AGAMA ISLAM         |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|7.| BUKU BAHASA              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|8.| BUKU SENI DAN OLAHRAGA   |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|9.| MAJALAH                  |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|10.| BUKU AKADEMIK           |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|11.| KEMBALI                 |" << endl;
+                    cout << "------------------------------" << endl;
+
+                    cout << "Pilih kategori [1-11]: ";
+                    cin >> kategoriPilihan;
+
+                    switch (kategoriPilihan)
+                    {
+                    case 1:
+                        // tampilanDaftarBuku(bukuPahlawan);
+                        break;
+                    case 2:
+                        // tampilanDaftarBuku(bukuFiksi);
+                        break;
+                    case 3:
+                        // tampilanDaftarBuku(bukuIlmiah);
+                        break;
+                    case 4:
+                        // tampilanDaftarBuku(bukuSastra);
+                        break;
+                    case 5:
+                        // tampilanDaftarBuku(bukuKesehatan);
+                        break;
+                    case 6:
+                        // tampilanDaftarBuku(bukuAgamaIslam);
+                        break;
+                    case 7:
+                        // tampilanDaftarBuku(bukuBahasa);
+                        break;
+                    case 8:
+                        // tampilanDaftarBuku(bukuSeniDanOlahraga);
+                        break;
+                    case 9:
+                        // tampilanDaftarBuku(bukuMajalah);
+                        break;
+                    case 10:
+                        // tampilanDaftarBuku(bukuAkademik);
+                        break;
+                    case 11:
+                        break;
+                    default:
+                        cout << "Pilihan tidak valid!" << endl;
+                        break;
+                    }
+                } while (kategoriPilihan != 11);
+
+                break;
+
+            case 2:
+                printUsers();
+                break;
+
+            case 3:
+                // logout();
+                break;
+
+            case 4:
+                return;
+                break;
+
+            default:
+                cout << "Pilihan tidak valid!" << endl;
+                break;
+            }
+        } while (pilih != 4);
     }
 };
 
@@ -154,7 +345,7 @@ int main()
                 cout << "Login Berhasil" << endl;
                 cout << endl;
 
-                tabelUsers.print();
+                tabelUsers.displayMenu();
             }
             else
             {
