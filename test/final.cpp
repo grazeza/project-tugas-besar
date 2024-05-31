@@ -847,10 +847,8 @@ public:
     }
 };
 
-class Aplication : public LinkedList, public HashMap
+class Aplication : public RWBookStore, public HashMap
 {
 public:
-    void mainMenu() {
-        
-    }
+
 };
