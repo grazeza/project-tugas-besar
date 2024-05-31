@@ -847,12 +847,10 @@ public:
     }
 };
 
-class Aplication
+class Aplication : public LinkedList, public HashMap
 {
-private:
-    HashMap tabelUsers;
-    RWBookStore rwbookstore;
-    
 public:
-
+    void mainMenu() {
+        
+    }
 };
