@@ -24,7 +24,7 @@ typedef struct LinkedList
 
 class RWBookStore
 {
-private:
+public:
     LinkedList *bukuPahlawan;
     LinkedList *bukuFiksi;
     LinkedList *bukuIlmiah;
@@ -36,7 +36,6 @@ private:
     LinkedList *bukuMajalah;
     LinkedList *bukuAkademik;
 
-public:
     double totalHarga, diskon, uang;
     string namaBuku;
     int banyakBuku, pilihanMenu;
@@ -552,7 +551,7 @@ public:
     }
 };
 
-class HashMap
+class HashMap : public RWBookStore
 {
 private:
     vector<User *> table[tableIndex];
@@ -788,34 +787,34 @@ public:
                     switch (kategoriPilihan)
                     {
                     case 1:
-                        // tampilanDaftarBuku(bukuPahlawan);
+                        RWBookStore::tampilanDaftarBuku(bukuPahlawan);
                         break;
                     case 2:
-                        // tampilanDaftarBuku(bukuFiksi);
+                        RWBookStore::tampilanDaftarBuku(bukuFiksi);
                         break;
                     case 3:
-                        // tampilanDaftarBuku(bukuIlmiah);
+                        RWBookStore::tampilanDaftarBuku(bukuIlmiah);
                         break;
                     case 4:
-                        // tampilanDaftarBuku(bukuSastra);
+                        RWBookStore::tampilanDaftarBuku(bukuSastra);
                         break;
                     case 5:
-                        // tampilanDaftarBuku(bukuKesehatan);
+                        RWBookStore::tampilanDaftarBuku(bukuKesehatan);
                         break;
                     case 6:
-                        // tampilanDaftarBuku(bukuAgamaIslam);
+                        RWBookStore::tampilanDaftarBuku(bukuAgamaIslam);
                         break;
                     case 7:
-                        // tampilanDaftarBuku(bukuBahasa);
+                        RWBookStore::tampilanDaftarBuku(bukuBahasa);
                         break;
                     case 8:
-                        // tampilanDaftarBuku(bukuSeniDanOlahraga);
+                        RWBookStore::tampilanDaftarBuku(bukuSeniDanOlahraga);
                         break;
                     case 9:
-                        // tampilanDaftarBuku(bukuMajalah);
+                        RWBookStore::tampilanDaftarBuku(bukuMajalah);
                         break;
                     case 10:
-                        // tampilanDaftarBuku(bukuAkademik);
+                        RWBookStore::tampilanDaftarBuku(bukuAkademik);
                         break;
                     case 11:
                         break;
@@ -850,5 +849,4 @@ public:
 class Aplication : public RWBookStore, public HashMap
 {
 public:
-
 };
