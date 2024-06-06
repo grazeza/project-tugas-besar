@@ -201,9 +201,42 @@ public:
         cout << "Buku dengan nama '" << namaBuku << "' telah dihapus." << endl;
     }
 
-    void updateBuku()
+   void updateBuku(LinkedList *list, string namaBuku)
+{
+    current = list->head;
+    bool bookFound = false;
+
+    while (current != nullptr)
     {
+        if (current->nama == namaBuku)
+        {
+            bookFound = true;
+            break;
+        }
+        current = current->next;
     }
+
+    if (!bookFound)
+    {
+        cout << "Buku dengan nama \"" << namaBuku << "\" tidak ditemukan." << endl;
+        return;
+    }
+
+    cout << "Masukkan detail baru untuk buku \"" << namaBuku << "\":" << endl;
+
+    cout << "Nama baru: ";
+    cin.ignore();
+    getline(cin, current->nama);
+
+    cout << "Harga baru: ";
+    cin >> current->harga;
+
+    cout << "Stok baru: ";
+    cin >> current->banyak;
+
+    cout << "Detail buku telah berhasil diperbarui." << endl;
+}
+
 
     void tampilanDaftarBuku(LinkedList *list)
     {
