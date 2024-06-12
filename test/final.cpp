@@ -201,42 +201,41 @@ public:
         cout << "Buku dengan nama '" << namaBuku << "' telah dihapus." << endl;
     }
 
-   void updateBuku(LinkedList *list, string namaBuku)
-{
-    current = list->head;
-    bool bookFound = false;
-
-    while (current != nullptr)
+    void updateBuku(LinkedList *list, string namaBuku)
     {
-        if (current->nama == namaBuku)
+        current = list->head;
+        bool bookFound = false;
+
+        while (current != nullptr)
         {
-            bookFound = true;
-            break;
+            if (current->nama == namaBuku)
+            {
+                bookFound = true;
+                break;
+            }
+            current = current->next;
         }
-        current = current->next;
+
+        if (!bookFound)
+        {
+            cout << "Buku dengan nama \"" << namaBuku << "\" tidak ditemukan." << endl;
+            return;
+        }
+
+        cout << "Masukkan detail baru untuk buku \"" << namaBuku << "\":" << endl;
+
+        cout << "Nama baru: ";
+        cin.ignore();
+        getline(cin, current->nama);
+
+        cout << "Harga baru: ";
+        cin >> current->harga;
+
+        cout << "Stok baru: ";
+        cin >> current->banyak;
+
+        cout << "Detail buku telah berhasil diperbarui." << endl;
     }
-
-    if (!bookFound)
-    {
-        cout << "Buku dengan nama \"" << namaBuku << "\" tidak ditemukan." << endl;
-        return;
-    }
-
-    cout << "Masukkan detail baru untuk buku \"" << namaBuku << "\":" << endl;
-
-    cout << "Nama baru: ";
-    cin.ignore();
-    getline(cin, current->nama);
-
-    cout << "Harga baru: ";
-    cin >> current->harga;
-
-    cout << "Stok baru: ";
-    cin >> current->banyak;
-
-    cout << "Detail buku telah berhasil diperbarui." << endl;
-}
-
 
     void tampilanDaftarBuku(LinkedList *list)
     {
@@ -584,7 +583,7 @@ public:
     }
 };
 
-class HashMap : public RWBookStore
+class HashMap
 {
 private:
     vector<User *> table[tableIndex];
@@ -615,7 +614,7 @@ public:
         return hashValue % tableIndex;
     }
 
-    bool Login(string username, string password)
+    string Login(string username, string password)
     {
         int hashValue = simpleHash(username);
 
@@ -623,11 +622,11 @@ public:
         {
             if (user->username == username && user->password == password)
             {
-                return true;
+                return user->role;
             }
         }
 
-        return false;
+        return "error";
     }
 
     void Register(string username, string password, string code)
@@ -761,8 +760,12 @@ public:
             }
         } while (pilih != 2);
     }
+};
 
-    void displayMenu()
+class Aplication : public RWBookStore, public HashMap
+{
+public:
+    void displayMenuAdmin()
     {
         do
         {
@@ -877,9 +880,83 @@ public:
             }
         } while (pilih != 4);
     }
+
+    void mainMenu()
+    {
+        int choice;
+        string username, password, code, role;
+
+        while (true)
+        {
+            cout << "BookStore" << endl;
+            cout << "1. Login" << endl;
+            cout << "2. Register" << endl;
+            cout << "0. Exit" << endl;
+            cout << "Pilih? ";
+            cin >> choice;
+
+            switch (choice)
+            {
+            case 1:
+                cout << endl
+                     << "Masukkan username: ";
+                cin >> username;
+                cout << "Masukkan password: ";
+                cin >> password;
+
+                role = HashMap::Login(username, password);
+
+                if (role == "admin")
+                {
+                    cout << "Login Berhasil" << endl;
+                    cout << endl;
+
+                    displayMenuAdmin();
+                }
+                else if (role == "user")
+                {
+                    cout << "Login Berhasil" << endl;
+                    cout << endl;
+
+                    RWBookStore::displayMenu();
+                }
+                else
+                {
+                    cout << "Login Gagal" << endl;
+                }
+
+                break;
+
+            case 2:
+                cout << endl
+                     << "Masukkan username: ";
+                cin >> username;
+
+                cout << "Masukkan password: ";
+                cin >> password;
+
+                cout << "Masukkan kode unik: ";
+                cin >> code;
+
+                HashMap::Register(username, password, code);
+                break;
+
+            case 0:
+                return;
+                break;
+
+            default:
+                cout << "Input yang anda masukkan tidak valid" << endl;
+                break;
+            }
+        }
+    }
 };
 
-class Aplication : public RWBookStore, public HashMap
+int main()
 {
-public:
-};
+    Aplication app;
+    app.mainMenu();
+
+    return 0;
+}
