@@ -883,72 +883,74 @@ public:
 
     void mainMenu()
     {
-        int choice;
+        int input, pilih;
         string username, password, code, role;
 
-        while (true)
+        cout << "-----== RWF Book Store ==----" << endl;
+        cout << "-----------------------------" << endl;
+        cout << "|1. Login                   |" << endl;
+        cout << "-----------------------------" << endl;
+        cout << "|2. Register                |" << endl;
+        cout << "-----------------------------" << endl;
+        cout << "|3. Exit                    |" << endl;
+        cout << "-----------------------------" << endl;
+
+        cout << "Masukkan pilihan Anda: ";
+        cin >> pilih;
+
+        switch (pilih)
         {
-            cout << "BookStore" << endl;
-            cout << "1. Login" << endl;
-            cout << "2. Register" << endl;
-            cout << "0. Exit" << endl;
-            cout << "Pilih? ";
-            cin >> choice;
+        case 1: // buat login
+            cout << endl
+                 << "Masukkan username: ";
+            cin >> username;
+            cout << "Masukkan password: ";
+            cin >> password;
 
-            switch (choice)
+            role = HashMap::Login(username, password);
+
+            if (role == "admin")
             {
-            case 1:
-                cout << endl
-                     << "Masukkan username: ";
-                cin >> username;
-                cout << "Masukkan password: ";
-                cin >> password;
+                cout << "Login Berhasil" << endl;
+                cout << endl;
 
-                role = HashMap::Login(username, password);
-
-                if (role == "admin")
-                {
-                    cout << "Login Berhasil" << endl;
-                    cout << endl;
-
-                    displayMenuAdmin();
-                }
-                else if (role == "user")
-                {
-                    cout << "Login Berhasil" << endl;
-                    cout << endl;
-
-                    RWBookStore::displayMenu();
-                }
-                else
-                {
-                    cout << "Login Gagal" << endl;
-                }
-
-                break;
-
-            case 2:
-                cout << endl
-                     << "Masukkan username: ";
-                cin >> username;
-
-                cout << "Masukkan password: ";
-                cin >> password;
-
-                cout << "Masukkan kode unik: ";
-                cin >> code;
-
-                HashMap::Register(username, password, code);
-                break;
-
-            case 0:
-                return;
-                break;
-
-            default:
-                cout << "Input yang anda masukkan tidak valid" << endl;
-                break;
+                displayMenuAdmin();
             }
+            else if (role == "user")
+            {
+                cout << "Login Berhasil" << endl;
+                cout << endl;
+
+                RWBookStore::displayMenu();
+            }
+            else
+            {
+                cout << "Login Gagal" << endl;
+            }
+
+            break;
+            break;
+        case 2: // buat registernya
+            cout << endl
+                 << "Masukkan username: ";
+            cin >> username;
+
+            cout << "Masukkan password: ";
+            cin >> password;
+
+            cout << "Masukkan kode unik: ";
+            cin >> code;
+
+            HashMap::Register(username, password, code);
+            break;
+            break;
+        case 3:
+            cout << "Terima kasih." << endl;
+            exit(0);
+            break;
+        default:
+            cout << "Pilihan tidak valid, silakan coba lagi." << endl;
+            break;
         }
     }
 };
