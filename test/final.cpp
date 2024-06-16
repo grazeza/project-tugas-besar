@@ -39,7 +39,7 @@ public:
     double totalHarga, diskon, uang;
     string namaBuku;
     int banyakBuku, pilihanMenu;
-    bool notfoundInAllCategories;
+    bool notfoundInAllCategories, found;
 
     Node *head, *tail, *newNode, *current, *temp, *prev;
 
@@ -258,10 +258,13 @@ public:
             current = current->next;
         }
 
-        prosesTransaksi(list);
+        if (!prosesTransaksi(list))
+        {
+            return;
+        }
     }
 
-    void prosesTransaksi(LinkedList *list)
+    bool prosesTransaksi(LinkedList *list)
     {
         cin.ignore();
 
@@ -350,14 +353,15 @@ public:
 
             if (pilihanMenu == 1)
             {
-                return;
-                break;
+                return true;
             }
             else
             {
-                displayMenu();
+                return false;
             }
         }
+
+        return false;
     }
 
     void kurangiStokBuku(LinkedList *list, const string &namaBuku, int jumlah)
@@ -379,7 +383,6 @@ public:
     void searchBuku(LinkedList *list, string judulBuku, bool searchAllCategories = false)
     {
         current = list->head;
-        bool found = false;
 
         if (current == nullptr)
         {
@@ -400,6 +403,8 @@ public:
                 cout << "-----------------------------------------------------------";
                 cout << endl
                      << endl;
+
+                found = true;
 
                 if (!searchAllCategories)
                 {
@@ -436,134 +441,9 @@ public:
         searchBuku(bukuMajalah, judulBuku, true);
         searchBuku(bukuAkademik, judulBuku, true);
 
-        if (notfoundInAllCategories)
+        if (!found && notfoundInAllCategories)
         {
             cout << "Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam semua kategori." << endl;
-        }
-    }
-
-    void displayMenu()
-    {
-        int pilih;
-        string judulBuku;
-
-        while (true)
-        {
-            // system("cls");
-
-            cout << "-----== MENU UTAMA ==-----" << endl;
-            cout << "--------------------------" << endl;
-            cout << "| 1. | DAFTAR BUKU        |" << endl;
-            cout << "--------------------------" << endl;
-            cout << "| 2. | SEARCH BUKU        |" << endl;
-            cout << "--------------------------" << endl;
-            cout << "| 3. | LOGOUT             |" << endl;
-            cout << "--------------------------" << endl;
-            cout << "| 4. | EXIT               |" << endl;
-            cout << "--------------------------" << endl;
-
-            cout << "\n\nPilihan Anda [1-4]: ";
-            cin >> pilih;
-
-            switch (pilih)
-            {
-            case 1:
-            {
-                int kategoriPilihan;
-
-                cout << endl;
-
-                do
-                {
-                    cout << "-------== DAFTAR BUKU ==------" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|1.| BUKU PAHLAWAN            |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|2.| BUKU FIKSI               |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|3.| BUKU ILMIAH              |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|4.| BUKU SASTRA              |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|5.| BUKU KESEHATAN           |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|6.| BUKU AGAMA ISLAM         |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|7.| BUKU BAHASA              |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|8.| BUKU SENI DAN OLAHRAGA   |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|9.| MAJALAH                  |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|10.| BUKU AKADEMIK           |" << endl;
-                    cout << "------------------------------" << endl;
-                    cout << "|11.| KEMBALI                 |" << endl;
-                    cout << "------------------------------" << endl;
-
-                    cout << "Pilih kategori [1-11]: ";
-                    cin >> kategoriPilihan;
-
-                    switch (kategoriPilihan)
-                    {
-                    case 1:
-                        tampilanDaftarBuku(bukuPahlawan);
-                        break;
-                    case 2:
-                        tampilanDaftarBuku(bukuFiksi);
-                        break;
-                    case 3:
-                        tampilanDaftarBuku(bukuIlmiah);
-                        break;
-                    case 4:
-                        tampilanDaftarBuku(bukuSastra);
-                        break;
-                    case 5:
-                        tampilanDaftarBuku(bukuKesehatan);
-                        break;
-                    case 6:
-                        tampilanDaftarBuku(bukuAgamaIslam);
-                        break;
-                    case 7:
-                        tampilanDaftarBuku(bukuBahasa);
-                        break;
-                    case 8:
-                        tampilanDaftarBuku(bukuSeniDanOlahraga);
-                        break;
-                    case 9:
-                        tampilanDaftarBuku(bukuMajalah);
-                        break;
-                    case 10:
-                        tampilanDaftarBuku(bukuAkademik);
-                        break;
-                    case 11:
-                        break;
-                    default:
-                        cout << "Pilihan tidak valid!" << endl;
-                        break;
-                    }
-                } while (kategoriPilihan != 11);
-
-                break;
-            }
-            case 2:
-            {
-                cout << "Masukkan judul buku yang ingin dicari: ";
-                cin.ignore();
-                getline(cin, judulBuku);
-
-                searchBukuDiSemuaKategori(judulBuku);
-                break;
-            }
-            case 3:
-                // logout();
-                break;
-            case 4:
-                cout << "Terima kasih! Program selesai." << endl;
-                return;
-            default:
-                cout << "Pilihan tidak valid!" << endl;
-                break;
-            }
         }
     }
 };
@@ -701,7 +581,7 @@ public:
                 if (user != nullptr)
                 {
                     cout << "---------------------------------------------------------------" << endl;
-                    cout << "| " << setw(6) << left << i << " | " << setw(28) << left << user->username << " | " << setw(20) << left << user->role << "|" << endl;
+                    cout << "| " << setw(6) << left << i + 1 << " | " << setw(28) << left << user->username << " | " << setw(20) << left << user->role << "|" << endl;
                     cout << "---------------------------------------------------------------" << endl;
                 }
             }
@@ -867,7 +747,7 @@ public:
                 break;
 
             case 3:
-                // logout();
+                mainMenu();
                 break;
 
             case 4:
@@ -881,77 +761,205 @@ public:
         } while (pilih != 4);
     }
 
+    void displayMenuUser()
+    {
+        int pilih;
+        string judulBuku;
+
+        while (true)
+        {
+            // system("cls");
+
+            cout << "-----== MENU UTAMA ==-----" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 1. | DAFTAR BUKU        |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 2. | SEARCH BUKU        |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 3. | LOGOUT             |" << endl;
+            cout << "--------------------------" << endl;
+            cout << "| 4. | EXIT               |" << endl;
+            cout << "--------------------------" << endl;
+
+            cout << "\n\nPilihan Anda [1-4]: ";
+            cin >> pilih;
+
+            switch (pilih)
+            {
+            case 1:
+            {
+                int kategoriPilihan;
+
+                cout << endl;
+
+                do
+                {
+                    cout << "-------== DAFTAR BUKU ==------" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|1.| BUKU PAHLAWAN            |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|2.| BUKU FIKSI               |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|3.| BUKU ILMIAH              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|4.| BUKU SASTRA              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|5.| BUKU KESEHATAN           |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|6.| BUKU AGAMA ISLAM         |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|7.| BUKU BAHASA              |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|8.| BUKU SENI DAN OLAHRAGA   |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|9.| MAJALAH                  |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|10.| BUKU AKADEMIK           |" << endl;
+                    cout << "------------------------------" << endl;
+                    cout << "|11.| KEMBALI                 |" << endl;
+                    cout << "------------------------------" << endl;
+
+                    cout << "Pilih kategori [1-11]: ";
+                    cin >> kategoriPilihan;
+
+                    switch (kategoriPilihan)
+                    {
+                    case 1:
+                        RWBookStore::tampilanDaftarBuku(bukuPahlawan);
+                        break;
+                    case 2:
+                        RWBookStore::tampilanDaftarBuku(bukuFiksi);
+                        break;
+                    case 3:
+                        RWBookStore::tampilanDaftarBuku(bukuIlmiah);
+                        break;
+                    case 4:
+                        RWBookStore::tampilanDaftarBuku(bukuSastra);
+                        break;
+                    case 5:
+                        RWBookStore::tampilanDaftarBuku(bukuKesehatan);
+                        break;
+                    case 6:
+                        RWBookStore::tampilanDaftarBuku(bukuAgamaIslam);
+                        break;
+                    case 7:
+                        RWBookStore::tampilanDaftarBuku(bukuBahasa);
+                        break;
+                    case 8:
+                        RWBookStore::tampilanDaftarBuku(bukuSeniDanOlahraga);
+                        break;
+                    case 9:
+                        RWBookStore::tampilanDaftarBuku(bukuMajalah);
+                        break;
+                    case 10:
+                        RWBookStore::tampilanDaftarBuku(bukuAkademik);
+                        break;
+                    case 11:
+                        break;
+                    default:
+                        cout << "Pilihan tidak valid!" << endl;
+                        break;
+                    }
+                } while (kategoriPilihan != 11);
+
+                break;
+            }
+            case 2:
+            {
+                cout << "Masukkan judul buku yang ingin dicari: ";
+                cin.ignore();
+                getline(cin, judulBuku);
+
+                RWBookStore::searchBukuDiSemuaKategori(judulBuku);
+                break;
+            }
+            case 3:
+                return;
+                break;
+            case 4:
+                cout << "Terima kasih!" << endl;
+                return;
+            default:
+                cout << "Pilihan tidak valid!" << endl;
+                break;
+            }
+        }
+    }
+
     void mainMenu()
     {
         int input, pilih;
         string username, password, code, role;
 
-        cout << "-----== RWF Book Store ==----" << endl;
-        cout << "-----------------------------" << endl;
-        cout << "|1. Login                   |" << endl;
-        cout << "-----------------------------" << endl;
-        cout << "|2. Register                |" << endl;
-        cout << "-----------------------------" << endl;
-        cout << "|3. Exit                    |" << endl;
-        cout << "-----------------------------" << endl;
-
-        cout << "Masukkan pilihan Anda: ";
-        cin >> pilih;
-
-        switch (pilih)
+        do
         {
-        case 1: // buat login
-            cout << endl
-                 << "Masukkan username: ";
-            cin >> username;
-            cout << "Masukkan password: ";
-            cin >> password;
+            cout << "-----== RWF Book Store ==----" << endl;
+            cout << "-----------------------------" << endl;
+            cout << "|1. Login                   |" << endl;
+            cout << "-----------------------------" << endl;
+            cout << "|2. Register                |" << endl;
+            cout << "-----------------------------" << endl;
+            cout << "|3. Exit                    |" << endl;
+            cout << "-----------------------------" << endl;
 
-            role = HashMap::Login(username, password);
+            cout << "Masukkan pilihan Anda: ";
+            cin >> pilih;
 
-            if (role == "admin")
+            switch (pilih)
             {
-                cout << "Login Berhasil" << endl;
-                cout << endl;
+            case 1: // buat login
+                cout << endl
+                     << "Masukkan username: ";
+                cin >> username;
+                cout << "Masukkan password: ";
+                cin >> password;
 
-                displayMenuAdmin();
+                role = HashMap::Login(username, password);
+
+                if (role == "admin")
+                {
+                    cout << "Login Berhasil" << endl;
+                    cout << endl;
+
+                    displayMenuAdmin();
+                }
+                else if (role == "user")
+                {
+                    cout << "Login Berhasil" << endl;
+                    cout << endl;
+
+                    displayMenuUser();
+                }
+                else
+                {
+                    cout << "Login Gagal" << endl;
+                }
+
+                break;
+                break;
+            case 2: // buat registernya
+                cout << endl
+                     << "Masukkan username: ";
+                cin >> username;
+
+                cout << "Masukkan password: ";
+                cin >> password;
+
+                cout << "Masukkan kode unik: ";
+                cin >> code;
+
+                HashMap::Register(username, password, code);
+                break;
+                break;
+            case 3:
+                cout << "Terima kasih." << endl;
+                exit(0);
+                break;
+            default:
+                cout << "Pilihan tidak valid, silakan coba lagi." << endl;
+                break;
             }
-            else if (role == "user")
-            {
-                cout << "Login Berhasil" << endl;
-                cout << endl;
-
-                RWBookStore::displayMenu();
-            }
-            else
-            {
-                cout << "Login Gagal" << endl;
-            }
-
-            break;
-            break;
-        case 2: // buat registernya
-            cout << endl
-                 << "Masukkan username: ";
-            cin >> username;
-
-            cout << "Masukkan password: ";
-            cin >> password;
-
-            cout << "Masukkan kode unik: ";
-            cin >> code;
-
-            HashMap::Register(username, password, code);
-            break;
-            break;
-        case 3:
-            cout << "Terima kasih." << endl;
-            exit(0);
-            break;
-        default:
-            cout << "Pilihan tidak valid, silakan coba lagi." << endl;
-            break;
-        }
+        } while (pilih != 3);
     }
 };
 
