@@ -201,8 +201,14 @@ public:
         cout << "Buku dengan nama '" << namaBuku << "' telah dihapus." << endl;
     }
 
-    void updateBuku(LinkedList *list, string namaBuku)
+    void updateBuku(LinkedList *list)
     {
+        cin.ignore();
+        string namaBuku;
+
+        cout << "Masukkan Nama Buku : ";
+        getline(cin, namaBuku);
+
         current = list->head;
         bool bookFound = false;
 
@@ -225,7 +231,6 @@ public:
         cout << "Masukkan detail baru untuk buku \"" << namaBuku << "\":" << endl;
 
         cout << "Nama baru: ";
-        cin.ignore();
         getline(cin, current->nama);
 
         cout << "Harga baru: ";
@@ -237,7 +242,7 @@ public:
         cout << "Detail buku telah berhasil diperbarui." << endl;
     }
 
-    void tampilanDaftarBuku(LinkedList *list)
+    void tampilanDaftarBuku(LinkedList *list, string role = "user")
     {
         cout << "\n---------------=== DAFTAR BUKU " << list->head->kategori << " ===---------------:" << endl;
         cout << endl;
@@ -249,7 +254,7 @@ public:
             cout << setiosflags(ios::fixed);
             cout << "-----------------------------------------------------------" << endl;
             cout << "| " << setw(18) << left << current->nama
-                 << " | Harga: Rp." << setw(10) << right << fixed << setprecision(2) << current->harga
+                 << " | Harga: Rp." << setw(10) << right << fixed << setprecision(3) << current->harga
                  << " | Stok: " << setw(5) << current->banyak << " |" << endl;
             cout << "-----------------------------------------------------------";
             cout << endl
@@ -258,9 +263,17 @@ public:
             current = current->next;
         }
 
-        if (!prosesTransaksi(list))
+        if (role == "user")
         {
-            return;
+            if (!prosesTransaksi(list))
+            {
+                return;
+            }
+        }
+        else
+        {
+            // cin.ignore();
+            updateBuku(list);
         }
     }
 
@@ -703,34 +716,34 @@ public:
                     switch (kategoriPilihan)
                     {
                     case 1:
-                        RWBookStore::tampilanDaftarBuku(bukuPahlawan);
+                        RWBookStore::tampilanDaftarBuku(bukuPahlawan, "admin");
                         break;
                     case 2:
-                        RWBookStore::tampilanDaftarBuku(bukuFiksi);
+                        RWBookStore::tampilanDaftarBuku(bukuFiksi, "admin");
                         break;
                     case 3:
-                        RWBookStore::tampilanDaftarBuku(bukuIlmiah);
+                        RWBookStore::tampilanDaftarBuku(bukuIlmiah, "admin");
                         break;
                     case 4:
-                        RWBookStore::tampilanDaftarBuku(bukuSastra);
+                        RWBookStore::tampilanDaftarBuku(bukuSastra, "admin");
                         break;
                     case 5:
-                        RWBookStore::tampilanDaftarBuku(bukuKesehatan);
+                        RWBookStore::tampilanDaftarBuku(bukuKesehatan, "admin");
                         break;
                     case 6:
-                        RWBookStore::tampilanDaftarBuku(bukuAgamaIslam);
+                        RWBookStore::tampilanDaftarBuku(bukuAgamaIslam, "admin");
                         break;
                     case 7:
-                        RWBookStore::tampilanDaftarBuku(bukuBahasa);
+                        RWBookStore::tampilanDaftarBuku(bukuBahasa, "admin");
                         break;
                     case 8:
-                        RWBookStore::tampilanDaftarBuku(bukuSeniDanOlahraga);
+                        RWBookStore::tampilanDaftarBuku(bukuSeniDanOlahraga, "admin");
                         break;
                     case 9:
-                        RWBookStore::tampilanDaftarBuku(bukuMajalah);
+                        RWBookStore::tampilanDaftarBuku(bukuMajalah, "admin");
                         break;
                     case 10:
-                        RWBookStore::tampilanDaftarBuku(bukuAkademik);
+                        RWBookStore::tampilanDaftarBuku(bukuAkademik, "admin");
                         break;
                     case 11:
                         break;
