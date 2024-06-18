@@ -8,6 +8,9 @@ using namespace std;
 
 const int tableIndex = 10;
 
+// 
+// Linked List : Rangga, Wahuy
+// 
 typedef struct Node
 {
     string nama;
@@ -461,6 +464,13 @@ public:
     }
 };
 
+// 
+// End Linked List
+// 
+
+// 
+// HashTable : Fahreza
+// 
 class User
 {
 public:
@@ -654,6 +664,9 @@ public:
         } while (pilih != 2);
     }
 };
+// 
+// End HashTable
+// 
 
 class Aplication : public RWBookStore, public HashMap
 {
