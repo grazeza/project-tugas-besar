@@ -8,8 +8,9 @@
 
 using namespace std;
 
-const int tableIndex = 10;
+const int tableIndex = 10; // indeks vector, untuk jumalah maksimal User
 
+// Struktur untuk menampung Node Linked List
 typedef struct Node
 {
     string nama;
@@ -19,14 +20,21 @@ typedef struct Node
     Node *next;
 } Node;
 
+// Struktur untuk menyumpan setiap Linked List
 typedef struct LinkedList
 {
     Node *head, *tail;
 } LinkedList;
 
+//
+// Linked List untuk Bookstore
+// Rangga & Wahyu
+//
+
 class RWBookStore
 {
 public:
+    // Deklarasi Linked List setiap kategori
     LinkedList *bukuPahlawan;
     LinkedList *bukuFiksi;
     LinkedList *bukuIlmiah;
@@ -38,6 +46,7 @@ public:
     LinkedList *bukuMajalah;
     LinkedList *bukuAkademik;
 
+    // Variabel global
     double totalHarga, diskon, uang;
     string namaBuku;
     int banyakBuku, pilihanMenu;
@@ -45,6 +54,7 @@ public:
 
     Node *head, *tail, *newNode, *current, *temp, *prev;
 
+    // Konstruktor untuk mengisi data Linked List setiap kategori
     RWBookStore()
     {
         bukuPahlawan = buatLinkedList();
@@ -127,19 +137,23 @@ public:
         insertBelakang(bukuAkademik, "SKD", 100, 400, "Buku Akademik");
     }
 
+    // Fungsi untuk membuat Linked List
     LinkedList *buatLinkedList()
     {
+        // Penambahan Linked List baru yang akan di simpan di Linked List utama
         LinkedList *list = (LinkedList *)malloc(sizeof(LinkedList));
         list->head = nullptr;
         list->tail = nullptr;
         return list;
     }
 
+    //  Pengecekan kosongnya Linked List
     bool isEmpty(LinkedList *list)
     {
         return list->head == nullptr;
     }
 
+    //  Fungsi untuk membuat Node baru
     void makeNewNode(string nama, double harga, int banyak, string kategori)
     {
         newNode = new Node;
@@ -150,6 +164,8 @@ public:
         newNode->next = nullptr;
     }
 
+    // Fugnsi untuk menambahkan Node baru ke Linked List pada bagian akhir
+    // Kenapa insertBelakang? agar data menjadi urut sesuai urutan penambahanya
     void insertBelakang(LinkedList *list, string nama, double harga, int banyak, string kategori)
     {
         makeNewNode(nama, harga, banyak, kategori);
@@ -166,6 +182,7 @@ public:
         }
     }
 
+    // Fungsi untuk menghapus suatu Node di dalam Linked List berdasarkan nama buku
     void deleteByNamaBuku(LinkedList *list, string namaBuku)
     {
         temp = list->head;
@@ -203,9 +220,10 @@ public:
         cout << "!! Buku dengan nama '" << namaBuku << "' telah dihapus !!" << endl;
     }
 
+    // Fungsi untuk mengupdate sebuah Node dalam Linked List berdasarkan nama buku
     void updateBuku(LinkedList *list)
     {
-        cout << "Masukkan nama buku yang ingin DI EDIT: ";
+        cout << "Masukkan nama buku yang ingin DI EDIT  : ";
         getline(cin, namaBuku);
 
         current = list->head;
@@ -223,12 +241,12 @@ public:
 
         if (!bookFound)
         {
-            cout << "Buku dengan nama \"" << namaBuku << "\" tidak ditemukan." << endl;
+            cout << "!! Buku dengan nama \"" << namaBuku << "\" tidak ditemukan !!" << endl;
             return;
         }
 
         cout << endl;
-        cout << "Masukkan detail baru untuk buku \"" << namaBuku << "\":" << endl;
+        cout << "Masukkan detail baru untuk buku \"" << namaBuku << "\" :" << endl;
 
         cout << "Nama baru  : ";
         getline(cin, current->nama);
@@ -242,6 +260,7 @@ public:
         cout << "!! Detail buku telah berhasil diperbarui !!" << endl;
     }
 
+    // Fungsi untuk menampilkan Linked List berdasarkan Kategori dan Role User
     void tampilanDaftarBuku(LinkedList *list, string role = "user")
     {
         cout << "\n---------------=== DAFTAR BUKU " << list->head->kategori << " ===---------------" << endl;
@@ -263,6 +282,7 @@ public:
             current = current->next;
         }
 
+        // Pengecekan role untuk proses olah buku yang berbeda
         if (role == "user")
         {
             if (!prosesTransaksi(list))
@@ -333,6 +353,7 @@ public:
         }
     }
 
+    // Fungsi untuk memproses transaksi dari user, dengan mengembalikan nilai true atau false sebagai penanda
     bool prosesTransaksi(LinkedList *list)
     {
         cin.ignore();
@@ -433,6 +454,7 @@ public:
         return false;
     }
 
+    // Fungsi untuk mengurangi stok buku yang digunakan dalam proses transaksi
     void kurangiStokBuku(LinkedList *list, const string &namaBuku, int jumlah)
     { //& refresnsi kategori terhadap string
         current = list->head;
@@ -449,6 +471,7 @@ public:
         }
     }
 
+    // Fungsi untuk melakukan searching pada Linked List berdasarkan nama buku, dengan parameter tambahan boolean untuk penanda
     void searchBuku(LinkedList *list, string judulBuku, bool searchAllCategories = false)
     {
         current = list->head;
@@ -483,17 +506,19 @@ public:
             current = current->next;
         }
 
+        // Penanda tadi digunakan disini untuk membedakan ketika fungsi di panggil hanya untuk search di dalam satu kategori atau semua kategori
         if (!found && !searchAllCategories)
         {
             cout << "!! Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam kategori " << list->head->kategori << " !!" << endl;
         }
-
         else if (!found && searchAllCategories)
         {
+            // Penanda tambahan untuk fungsi search dalam semua kategori
             notfoundInAllCategories = true;
         }
     }
 
+    // Fungsi search dalam semua Kategori atau Linked List
     void searchBukuDiSemuaKategori(string judulBuku)
     {
         cout << "\n------------------=== PENCARIAN BUKU ===-----------------" << endl
@@ -510,6 +535,7 @@ public:
         searchBuku(bukuMajalah, judulBuku, true);
         searchBuku(bukuAkademik, judulBuku, true);
 
+        // Akan memunculkan pesan jika di semua kategori tidak ditemukan dengan mengecek penanda tambahan
         if (!found && notfoundInAllCategories)
         {
             cout << "!! Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam semua kategori !!" << endl;
@@ -518,6 +544,12 @@ public:
     }
 };
 
+//
+// HashMap untuk Data User
+// Fahreza
+//
+
+// Kelas untuk menyimpan Data User
 class User
 {
 public:
@@ -533,14 +565,18 @@ public:
     }
 };
 
+// Kelas HashMap, untuk mengolah Data User
 class HashMap
 {
 private:
+    // Deklarasi vector User berdasarkan table indeks sebelumnya
     vector<User *> table[tableIndex];
 
 public:
+    // Variabel Global
     int pilih;
 
+    // Destruktor untuk penghapusan HashMap ketika program selesai
     ~HashMap()
     {
         for (int i = 0; i < tableIndex; i++)
@@ -552,6 +588,7 @@ public:
         }
     }
 
+    // Fungsi simple hash untuk menentukan key
     int simpleHash(string key)
     {
         int hashValue = 0;
@@ -564,6 +601,7 @@ public:
         return hashValue % tableIndex;
     }
 
+    // Fungsi login yang akan mengecek inputan User, apakah terdaftar dalam HashTable atau tidak menggunakan searching
     string Login(string username, string password)
     {
         int hashValue = simpleHash(username);
@@ -572,13 +610,16 @@ public:
         {
             if (user->username == username && user->password == password)
             {
+                // Akan mengembalikan role user untuk pengecekan lebih lanjut
                 return user->role;
             }
         }
 
+        // Untuk penanda error
         return "error";
     }
 
+    // Fungsi untuk registrasi, penambahan data user kedalam HashMap
     void Register(string username, string password, string code)
     {
         int hashValue = simpleHash(username);
@@ -599,6 +640,7 @@ public:
         cout << "!! Berhasil Register !!" << endl;
     }
 
+    // Fungsi untuk menghapus Data User berdasarkan nama user
     void removeByUsername(string username)
     {
         int hashValue = simpleHash(username);
@@ -615,9 +657,10 @@ public:
         }
 
         cout << endl
-             << "User " << usernameData << " berhasil di hapus." << endl;
+             << "!! User " << usernameData << " berhasil di hapus !!" << endl;
     }
 
+    // Fungsi untuk mencari Data User berdasarkan nama user menggunakan Sequential Search
     void searchByUsername(string username)
     {
         int hashValue = simpleHash(username);
@@ -638,6 +681,7 @@ public:
         }
     }
 
+    // Fungsi untuk menampilkan Data User
     void printUsers()
     {
         cout << "---------------------------------------------------------------" << endl;
@@ -657,9 +701,11 @@ public:
             }
         }
 
+        // Pemanggilan fungsi untuk mengolah user lebih lanjut
         prosesOlahUser();
     }
 
+    // Fungsi untuk mengolah user termasuk Delete Data User
     void prosesOlahUser()
     {
         int pilih, choice;
@@ -713,6 +759,7 @@ public:
     }
 };
 
+// Fungsi tambahan untuk menambahkan loading effect pada program 😄
 void displayLoadingEffect()
 {
     for (int i = 0; i < 20; ++i)
@@ -724,9 +771,11 @@ void displayLoadingEffect()
          << endl;
 }
 
+// Kelas Inheritance, untuk menggabungkan dua buah kelas dengan menggunakan konsep pewarisan
 class Aplication : public RWBookStore, public HashMap
 {
 public:
+    // Menu Admin
     void displayMenuAdmin()
     {
         displayLoadingEffect();
@@ -834,7 +883,7 @@ public:
                 break;
 
             case 4:
-                return;
+                exit(0);
                 break;
 
             default:
@@ -844,6 +893,7 @@ public:
         } while (pilih != 4);
     }
 
+    // Menu User
     void displayMenuUser()
     {
         displayLoadingEffect();
@@ -963,7 +1013,9 @@ public:
                 break;
             case 4:
                 cout << "!! Terima kasih !!" << endl;
-                return;
+                exit(0);
+
+                break;
             default:
                 cout << "Pilihan tidak valid, silakan coba lagi" << endl;
                 break;
@@ -971,6 +1023,7 @@ public:
         }
     }
 
+    // Menu Utama
     void mainMenu()
     {
         // system("cls");
