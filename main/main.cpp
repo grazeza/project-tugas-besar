@@ -186,7 +186,7 @@ public:
 
         if (temp == nullptr)
         {
-            cout << "Buku dengan nama '" << namaBuku << "' tidak ditemukan." << endl;
+            cout << "!! Buku dengan nama '" << namaBuku << "' tidak ditemukan !!" << endl;
             return;
         }
 
@@ -200,15 +200,13 @@ public:
         }
 
         delete temp;
-        cout << "Buku dengan nama '" << namaBuku << "' telah dihapus." << endl;
+        cout << "!! Buku dengan nama '" << namaBuku << "' telah dihapus !!" << endl;
     }
 
     void updateBuku(LinkedList *list)
     {
-        cin.ignore();
-        string namaBuku;
         cout << "Masukkan nama buku yang ingin DI EDIT: ";
-        getline(cin,namaBuku);
+        getline(cin, namaBuku);
 
         current = list->head;
         bool bookFound = false;
@@ -229,24 +227,24 @@ public:
             return;
         }
 
+        cout << endl;
         cout << "Masukkan detail baru untuk buku \"" << namaBuku << "\":" << endl;
 
-        cout << "Nama baru: ";
-        cin.ignore();
+        cout << "Nama baru  : ";
         getline(cin, current->nama);
 
-        cout << "Harga baru: ";
+        cout << "Harga baru : ";
         cin >> current->harga;
 
-        cout << "Stok baru: ";
+        cout << "Stok baru  : ";
         cin >> current->banyak;
 
-        cout << "Detail buku telah berhasil diperbarui." << endl;
+        cout << "!! Detail buku telah berhasil diperbarui !!" << endl;
     }
 
     void tampilanDaftarBuku(LinkedList *list, string role = "user")
     {
-        cout << "\n---------------=== DAFTAR BUKU " << list->head->kategori << " ===---------------:" << endl;
+        cout << "\n---------------=== DAFTAR BUKU " << list->head->kategori << " ===---------------" << endl;
         cout << endl;
 
         current = list->head;
@@ -269,12 +267,69 @@ public:
         {
             if (!prosesTransaksi(list))
             {
-            return;
+                return;
             }
         }
-        else 
+        else
         {
-            updateBuku(list);
+            int pilih, choice;
+            string namaBukuTemp;
+            double harga;
+            int banyak;
+
+            do
+            {
+                cout << endl;
+                cout << "--------------------------------------" << endl;
+                cout << "| 1. | TAMBAH BUKU                   |" << endl;
+                cout << "--------------------------------------" << endl;
+                cout << "| 2. | EDIT BUKU                     |" << endl;
+                cout << "--------------------------------------" << endl;
+                cout << "| 3. | HAPUS BUKU                    |" << endl;
+                cout << "--------------------------------------" << endl;
+                cout << "| 4. | KEMBALI                       |" << endl;
+                cout << "--------------------------------------" << endl;
+
+                cout << "\nPilihan Anda [1-4]: ";
+                cin >> pilih;
+                cin.ignore();
+                cout << endl;
+
+                switch (pilih)
+                {
+                case 1:
+                    cout << "Masukkan Nama Buku     : ";
+                    getline(cin, namaBukuTemp);
+                    cout << "Masukkan Harga Buku    : ";
+                    cin >> harga;
+                    cout << "Masukkan Banyak Buku   : ";
+                    cin >> banyak;
+                    cin.ignore();
+
+                    insertBelakang(list, namaBukuTemp, harga, banyak, list->head->kategori);
+
+                    break;
+
+                case 2:
+                    updateBuku(list);
+                    break;
+                case 3:
+                    cout << "Masukkan Nama Buku yang ingin DI HAPUS : ";
+                    getline(cin, namaBukuTemp);
+
+                    deleteByNamaBuku(list, namaBukuTemp);
+
+                    break;
+
+                case 4:
+                    return;
+                    break;
+
+                default:
+                    cout << "Pilihan tidak valid, silakan coba lagi" << endl;
+                    break;
+                }
+            } while (pilih != 4);
         }
     }
 
@@ -345,7 +400,7 @@ public:
             }
             else
             {
-                cout << "Subtotal untuk Buku " << current->nama << "        Rp." << setprecision(3) << subTotal << endl
+                cout << "Subtotal untuk Buku " << current->nama << "                                       : Rp." << setprecision(3) << subTotal << endl
                      << endl;
             }
 
@@ -358,7 +413,7 @@ public:
             cout << "Kembalian     : Rp." << setprecision(3) << pembayaran << endl
                  << endl;
 
-            cout << "TERIMA KASIH TELAH BERBELANJA DI R&W Book Emporium" << endl
+            cout << "!! TERIMA KASIH TELAH BERBELANJA DI RWF Book Emporium !!" << endl
                  << endl;
 
             cout << "Apakah Anda ingin melakukan transaksi lain? (1: Ya, 0: Tidak):";
@@ -400,7 +455,7 @@ public:
 
         if (current == nullptr)
         {
-            cout << "Data buku kosong." << endl;
+            cout << "!! Data buku kosong !!" << endl;
             return;
         }
 
@@ -430,7 +485,7 @@ public:
 
         if (!found && !searchAllCategories)
         {
-            cout << "Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam kategori " << list->head->kategori << "." << endl;
+            cout << "!! Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam kategori " << list->head->kategori << " !!" << endl;
         }
 
         else if (!found && searchAllCategories)
@@ -457,7 +512,8 @@ public:
 
         if (!found && notfoundInAllCategories)
         {
-            cout << "Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam semua kategori." << endl;
+            cout << "!! Buku dengan judul \"" << judulBuku << "\" tidak ditemukan dalam semua kategori !!" << endl;
+            cout << endl;
         }
     }
 };
@@ -540,7 +596,7 @@ public:
 
         table[hashValue].push_back(new User(username, password, role));
 
-        cout << "Berhasil Register" << endl;
+        cout << "!! Berhasil Register !!" << endl;
     }
 
     void removeByUsername(string username)
@@ -619,8 +675,9 @@ public:
             cout << "| 2. | KEMBALI                       |" << endl;
             cout << "--------------------------------------" << endl;
 
-            cout << "\n\nPilihan Anda [1-2]: ";
+            cout << "\nPilihan Anda [1-2]: ";
             cin >> pilih;
+            cout << endl;
 
             switch (pilih)
             {
@@ -649,19 +706,22 @@ public:
                 break;
 
             default:
-                cout << "Pilihan tidak valid!" << endl;
+                cout << "Pilihan tidak valid, silakan coba lagi" << endl;
                 break;
             }
         } while (pilih != 2);
     }
-    
 };
-void displayLoadingEffect() {
-    for (int i = 0; i < 20; ++i) {
+
+void displayLoadingEffect()
+{
+    for (int i = 0; i < 20; ++i)
+    {
         cout << "\rLoading " << string(i, '=') << ">" << flush;
         this_thread::sleep_for(chrono::milliseconds(300));
     }
-    cout << "\rLoading ===================>" << endl << endl;
+    cout << "\rLoading ===================>" << endl
+         << endl;
 }
 
 class Aplication : public RWBookStore, public HashMap
@@ -669,29 +729,28 @@ class Aplication : public RWBookStore, public HashMap
 public:
     void displayMenuAdmin()
     {
-         displayLoadingEffect();
+        displayLoadingEffect();
         do
         {
             cout << "-----== MENU UTAMA ==-----" << endl;
             cout << "--------------------------" << endl;
-            cout << "| 1. | DAFTAR BUKU        |" << endl;
+            cout << "| 1. | DAFTAR BUKU       |" << endl;
             cout << "--------------------------" << endl;
-            cout << "| 2. | USERS              |" << endl;
+            cout << "| 2. | USERS             |" << endl;
             cout << "--------------------------" << endl;
-            cout << "| 3. | LOGOUT             |" << endl;
+            cout << "| 3. | LOGOUT            |" << endl;
             cout << "--------------------------" << endl;
-            cout << "| 4. | EXIT               |" << endl;
+            cout << "| 4. | EXIT              |" << endl;
             cout << "--------------------------" << endl;
 
-            cout << "\n\nPilihan Anda [1-4]: ";
+            cout << "\nPilihan Anda [1-4]: ";
             cin >> pilih;
+            cout << endl;
 
             switch (pilih)
             {
             case 1:
                 int kategoriPilihan;
-
-                cout << endl;
 
                 do
                 {
@@ -726,39 +785,40 @@ public:
                     switch (kategoriPilihan)
                     {
                     case 1:
-                        RWBookStore::tampilanDaftarBuku(bukuPahlawan,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuPahlawan, "admin");
                         break;
                     case 2:
-                        RWBookStore::tampilanDaftarBuku(bukuFiksi,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuFiksi, "admin");
                         break;
                     case 3:
-                        RWBookStore::tampilanDaftarBuku(bukuIlmiah,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuIlmiah, "admin");
                         break;
                     case 4:
-                        RWBookStore::tampilanDaftarBuku(bukuSastra,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuSastra, "admin");
                         break;
                     case 5:
-                        RWBookStore::tampilanDaftarBuku(bukuKesehatan,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuKesehatan, "admin");
                         break;
                     case 6:
-                        RWBookStore::tampilanDaftarBuku(bukuAgamaIslam,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuAgamaIslam, "admin");
                         break;
                     case 7:
-                        RWBookStore::tampilanDaftarBuku(bukuBahasa,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuBahasa, "admin");
                         break;
                     case 8:
-                        RWBookStore::tampilanDaftarBuku(bukuSeniDanOlahraga,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuSeniDanOlahraga, "admin");
                         break;
                     case 9:
-                        RWBookStore::tampilanDaftarBuku(bukuMajalah,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuMajalah, "admin");
                         break;
                     case 10:
-                        RWBookStore::tampilanDaftarBuku(bukuAkademik,"admin");
+                        RWBookStore::tampilanDaftarBuku(bukuAkademik, "admin");
                         break;
                     case 11:
+                        cout << endl;
                         break;
                     default:
-                        cout << "Pilihan tidak valid!" << endl;
+                        cout << "Pilihan tidak valid, silakan coba lagi" << endl;
                         break;
                     }
                 } while (kategoriPilihan != 11);
@@ -778,7 +838,7 @@ public:
                 break;
 
             default:
-                cout << "Pilihan tidak valid!" << endl;
+                cout << "Pilihan tidak valid, silakan coba lagi" << endl;
                 break;
             }
         } while (pilih != 4);
@@ -796,17 +856,18 @@ public:
 
             cout << "-----== MENU UTAMA ==-----" << endl;
             cout << "--------------------------" << endl;
-            cout << "| 1. | DAFTAR BUKU        |" << endl;
+            cout << "| 1. | DAFTAR BUKU       |" << endl;
             cout << "--------------------------" << endl;
-            cout << "| 2. | SEARCH BUKU        |" << endl;
+            cout << "| 2. | SEARCH BUKU       |" << endl;
             cout << "--------------------------" << endl;
-            cout << "| 3. | LOGOUT             |" << endl;
+            cout << "| 3. | LOGOUT            |" << endl;
             cout << "--------------------------" << endl;
-            cout << "| 4. | EXIT               |" << endl;
+            cout << "| 4. | EXIT              |" << endl;
             cout << "--------------------------" << endl;
 
-            cout << "\n\nPilihan Anda [1-4]: ";
+            cout << "\nPilihan Anda [1-4]: ";
             cin >> pilih;
+            cout << endl;
 
             switch (pilih)
             {
@@ -881,7 +942,7 @@ public:
                     case 11:
                         break;
                     default:
-                        cout << "Pilihan tidak valid!" << endl;
+                        cout << "Pilihan tidak valid, silakan coba lagi" << endl;
                         break;
                     }
                 } while (kategoriPilihan != 11);
@@ -890,7 +951,7 @@ public:
             }
             case 2:
             {
-                cout << "Masukkan judul buku yang ingin dicari: ";
+                cout << "Masukkan judul buku yang ingin dicari  : ";
                 cin.ignore();
                 getline(cin, judulBuku);
 
@@ -901,10 +962,10 @@ public:
                 return;
                 break;
             case 4:
-                cout << "Terima kasih!" << endl;
+                cout << "!! Terima kasih !!" << endl;
                 return;
             default:
-                cout << "Pilihan tidak valid!" << endl;
+                cout << "Pilihan tidak valid, silakan coba lagi" << endl;
                 break;
             }
         }
@@ -912,6 +973,8 @@ public:
 
     void mainMenu()
     {
+        // system("cls");
+
         int input, pilih;
         string username, password, code, role;
 
@@ -933,54 +996,55 @@ public:
             {
             case 1: // buat login
                 cout << endl
-                     << "Masukkan username: ";
+                     << "Masukkan Username  : ";
                 cin >> username;
-                cout << "Masukkan password: ";
+                cout << "Masukkan Password  : ";
                 cin >> password;
 
                 role = HashMap::Login(username, password);
 
                 if (role == "admin")
                 {
-                    cout << "Login Berhasil" << endl;
+                    cout << "!! Login Berhasil !!" << endl;
                     cout << endl;
 
                     displayMenuAdmin();
                 }
                 else if (role == "user")
                 {
-                    cout << "Login Berhasil" << endl;
+                    cout << "!! Login Berhasil !!" << endl;
                     cout << endl;
 
                     displayMenuUser();
                 }
                 else
                 {
-                    cout << "Login Gagal" << endl;
+                    cout << "!! Login Gagal !!" << endl;
                 }
 
                 break;
                 break;
             case 2: // buat registernya
                 cout << endl
-                     << "Masukkan username: ";
+                     << "Masukkan Username  : ";
                 cin >> username;
 
-                cout << "Masukkan password: ";
+                cout << "Masukkan Password  : ";
                 cin >> password;
 
-                cout << "Masukkan kode unik: ";
+                cout << "Masukkan Kode Unik : ";
                 cin >> code;
 
                 HashMap::Register(username, password, code);
-                break;
+
+                cout << endl;
                 break;
             case 3:
-                cout << "Terima kasih." << endl;
+                cout << "!! Terima kasih !!" << endl;
                 exit(0);
                 break;
             default:
-                cout << "Pilihan tidak valid, silakan coba lagi." << endl;
+                cout << "Pilihan tidak valid, silakan coba lagi" << endl;
                 break;
             }
         } while (pilih != 3);
