@@ -3,14 +3,13 @@
 #include <string>
 #include <vector>
 #include <limits>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
 const int tableIndex = 10;
 
-// 
-// Linked List : Rangga, Wahuy
-// 
 typedef struct Node
 {
     string nama;
@@ -208,9 +207,8 @@ public:
     {
         cin.ignore();
         string namaBuku;
-
-        cout << "Masukkan Nama Buku : ";
-        getline(cin, namaBuku);
+        cout << "Masukkan nama buku yang ingin DI EDIT: ";
+        getline(cin,namaBuku);
 
         current = list->head;
         bool bookFound = false;
@@ -234,6 +232,7 @@ public:
         cout << "Masukkan detail baru untuk buku \"" << namaBuku << "\":" << endl;
 
         cout << "Nama baru: ";
+        cin.ignore();
         getline(cin, current->nama);
 
         cout << "Harga baru: ";
@@ -270,12 +269,11 @@ public:
         {
             if (!prosesTransaksi(list))
             {
-                return;
+            return;
             }
         }
-        else
+        else 
         {
-            // cin.ignore();
             updateBuku(list);
         }
     }
@@ -464,13 +462,6 @@ public:
     }
 };
 
-// 
-// End Linked List
-// 
-
-// 
-// HashTable : Fahreza
-// 
 class User
 {
 public:
@@ -663,16 +654,22 @@ public:
             }
         } while (pilih != 2);
     }
+    
 };
-// 
-// End HashTable
-// 
+void displayLoadingEffect() {
+    for (int i = 0; i < 20; ++i) {
+        cout << "\rLoading " << string(i, '=') << ">" << flush;
+        this_thread::sleep_for(chrono::milliseconds(300));
+    }
+    cout << "\rLoading ===================>" << endl << endl;
+}
 
 class Aplication : public RWBookStore, public HashMap
 {
 public:
     void displayMenuAdmin()
     {
+         displayLoadingEffect();
         do
         {
             cout << "-----== MENU UTAMA ==-----" << endl;
@@ -729,34 +726,34 @@ public:
                     switch (kategoriPilihan)
                     {
                     case 1:
-                        RWBookStore::tampilanDaftarBuku(bukuPahlawan, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuPahlawan,"admin");
                         break;
                     case 2:
-                        RWBookStore::tampilanDaftarBuku(bukuFiksi, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuFiksi,"admin");
                         break;
                     case 3:
-                        RWBookStore::tampilanDaftarBuku(bukuIlmiah, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuIlmiah,"admin");
                         break;
                     case 4:
-                        RWBookStore::tampilanDaftarBuku(bukuSastra, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuSastra,"admin");
                         break;
                     case 5:
-                        RWBookStore::tampilanDaftarBuku(bukuKesehatan, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuKesehatan,"admin");
                         break;
                     case 6:
-                        RWBookStore::tampilanDaftarBuku(bukuAgamaIslam, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuAgamaIslam,"admin");
                         break;
                     case 7:
-                        RWBookStore::tampilanDaftarBuku(bukuBahasa, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuBahasa,"admin");
                         break;
                     case 8:
-                        RWBookStore::tampilanDaftarBuku(bukuSeniDanOlahraga, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuSeniDanOlahraga,"admin");
                         break;
                     case 9:
-                        RWBookStore::tampilanDaftarBuku(bukuMajalah, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuMajalah,"admin");
                         break;
                     case 10:
-                        RWBookStore::tampilanDaftarBuku(bukuAkademik, "admin");
+                        RWBookStore::tampilanDaftarBuku(bukuAkademik,"admin");
                         break;
                     case 11:
                         break;
@@ -789,6 +786,7 @@ public:
 
     void displayMenuUser()
     {
+        displayLoadingEffect();
         int pilih;
         string judulBuku;
 
