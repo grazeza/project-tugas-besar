@@ -207,7 +207,7 @@ public:
     {
         cin.ignore();
         string namaBuku;
-        cout << "Masukkan nama buku: ";
+        cout << "Masukkan nama buku yang ingin DI EDIT: ";
         getline(cin,namaBuku);
 
         current = list->head;
